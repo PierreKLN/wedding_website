@@ -23,6 +23,7 @@
   --maxw:1180px; --header-h:68px;
   --hero-img:url("images/vue-domaine.jpg");
   --story-img:url("images/notre-histoire.jpg");
+  --monogram-img:url("images/monograme.jpg");
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -54,8 +55,9 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .header.scrolled{ border-bottom-color:var(--line); box-shadow:0 6px 24px -18px rgba(55,67,47,.5); background:color-mix(in srgb, var(--paper) 92%, transparent); }
 .brand{ display:flex; align-items:center; gap:.7rem; min-width:0; }
 .brand-mono{
-  flex:0 0 auto; width:36px; height:36px; display:grid; place-items:center;
+  flex:0 0 auto; width:36px; height:36px; display:grid; place-items:center; overflow:hidden;
   border:1px solid var(--sage-mid); border-radius:50%;
+  background:var(--monogram-img) center/cover no-repeat;
   font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
 }
 .brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -80,7 +82,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   background-size:cover; background-position:center center;
 }
 .hero-inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); padding-inline:clamp(1.25rem,5vw,3rem); }
-.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.6); border-radius:50%; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
+.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:var(--monogram-img) center/cover no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
 .hero-names .amp{ font-style:italic; color:#CDD8C0; display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
@@ -119,7 +121,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .tl-item{ display:grid; grid-template-columns:96px 1fr; gap:2rem; padding-block:1.15rem; }
 .tl-time{ font-family:var(--font-display); font-size:1.15rem; text-align:right; color:var(--sage-deep); }
 .tl-body{ position:relative; padding-left:2rem; }
-.tl-body::before{ content:""; position:absolute; left:-6px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
+.tl-body::before{ content:""; position:absolute; left:-8px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
 .tl-body h4{ font-family:var(--font-display); font-weight:400; font-size:1.28rem; }
 
 /* Infos */
@@ -174,7 +176,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 /* Footer */
 .footer{ background:var(--sage-mist); text-align:center; padding-block:clamp(4rem,10vw,6rem); border-top:1px solid var(--line); }
-.footer .monogram{ margin:0 auto; width:70px; height:70px; display:grid; place-items:center; border:1px solid var(--sage-mid); border-radius:50%; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
+.footer .monogram{ margin:0 auto; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:var(--monogram-img) center/cover no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
 .footer-names{ font-family:var(--font-display); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:300; margin-top:.5rem; }
 .footer-date{ font-family:var(--font-accent); letter-spacing:.14em; text-transform:uppercase; font-size:.76rem; color:var(--ink-soft); margin-top:1rem; }
 .footer-note{ color:var(--sage-mid); font-family:var(--font-accent); font-size:.72rem; letter-spacing:.08em; margin-top:2.5rem; }
@@ -214,7 +216,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 <header class="header" id="header">
   <a href="#top" class="brand">
-    <span class="brand-mono" data-monogram></span>
+    <span class="brand-mono" aria-label="P&amp;A"></span>
     <span class="brand-name"><span data-p1></span> &amp; <span data-p2></span></span>
   </a>
   <nav class="nav-links">
@@ -229,7 +231,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 <header class="hero" id="top">
   <div class="hero-inner">
-    <div class="monogram" data-monogram></div>
+    <div class="monogram" aria-label="P&amp;A"></div>
     <div class="hero-eyebrow reveal">Nous nous marions</div>
     <h1 class="hero-names reveal d1"><span data-p1></span><span class="amp">&amp;</span><span data-p2></span></h1>
     <p class="hero-sub reveal d2"><span data-location></span><span class="dot">•</span><span data-date-display></span></p>
@@ -347,9 +349,9 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   <div class="wrap gift">
     <div class="section-head reveal">
       <span class="eyebrow">Votre présence avant tout</span>
-      <h2 class="section-title">Liste de mariage</h2>
-      <p class="section-lead">Le plus beau des cadeaux, c'est vous à nos côtés. Pour celles et ceux qui souhaitent contribuer, une liste de mariage est à votre disposition.</p>
-      <div class="reveal d1" style="margin-top:2rem"><a href="#" class="btn">Accéder à la liste de mariage</a></div>
+      <h2 class="section-title">Cadeaux</h2>
+      <p class="section-lead">Le plus beau des cadeaux, c'est vous à nos côtés. Pour celles et ceux qui souhaitent contribuer, une cagnotte est à votre disposition.</p>
+      <div class="reveal d1" style="margin-top:2rem"><a href="https://www.millemercismariage.com/agathe-et-p-a/liste.html" class="btn" target="_blank" rel="noopener">Accéder à la liste</a></div>
     </div>
   </div>
 </section>
@@ -366,7 +368,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 <footer class="footer">
   <div class="wrap">
-    <div class="monogram" data-monogram></div>
+    <div class="monogram" aria-label="P&amp;A"></div>
     <div class="footer-names"><span data-p1></span> &amp; <span data-p2></span></div>
     <div class="footer-date"><span data-location></span> — <span data-date-display></span></div>
     <div class="footer-note">Fait avec amour · À très bientôt</div>
@@ -391,7 +393,6 @@ if(!location.hash) window.scrollTo(0, 0);
 const CONFIG = {
   partner1: "Pierre-Alexandre",
   partner2: "Agathe",
-  monogram: "P&A",
   date: "2027-08-07T15:30:00",
   dateDisplay: "7 août 2027",
   dateShort: "7 août",
@@ -430,7 +431,6 @@ const set = (attr, val) => $$(`[${attr}]`).forEach(el => el.textContent = val);
 
 set('data-p1', CONFIG.partner1);
 set('data-p2', CONFIG.partner2);
-set('data-monogram', CONFIG.monogram);
 set('data-date-display', CONFIG.dateDisplay);
 set('data-date-short', CONFIG.dateShort);
 set('data-location', CONFIG.location);
