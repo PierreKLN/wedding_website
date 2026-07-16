@@ -137,6 +137,9 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .field input:focus,.field textarea:focus{ outline:none; border-color:var(--sage-mid); background:#fff; }
 .field textarea{ resize:vertical; min-height:90px; }
 .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.check-field{ display:flex; align-items:center; gap:.7rem; margin-bottom:1.3rem; }
+.check-field input[type="checkbox"]{ width:18px; height:18px; accent-color:var(--sage-deep); cursor:pointer; flex:none; }
+.check-field label{ font-family:var(--font-body); font-size:.95rem; color:var(--ink); cursor:pointer; margin:0; text-transform:none; letter-spacing:normal; }
 .choice{ display:flex; gap:.8rem; }
 .choice label{ flex:1; text-align:center; padding:.85rem; border:1px solid var(--line); border-radius:5px; cursor:pointer; text-transform:none; font-family:var(--font-body); font-size:.9rem; color:var(--ink); background:var(--paper-2); transition:.3s var(--ease); }
 .choice input{ position:absolute; opacity:0; }
@@ -150,6 +153,12 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .rsvp-error{ display:none; text-align:center; padding:1rem; margin-top:1rem; color:#B3453D; font-size:.9rem; }
 .rsvp-error.show{ display:block; }
 .btn:disabled{ opacity:.6; cursor:not-allowed; transform:none!important; }
+
+/* Popup BFF */
+.bff-popup{ display:none; position:fixed; inset:0; z-index:200; background:rgba(30,40,26,.55); align-items:center; justify-content:center; padding:1.5rem; }
+.bff-popup.show{ display:flex; }
+.bff-popup-card{ background:var(--paper); border-radius:8px; padding:clamp(2rem,6vw,3rem); text-align:center; box-shadow:0 30px 60px -20px rgba(0,0,0,.5); max-width:320px; }
+.bff-text{ display:block; font-family:var(--font-display); font-size:3rem; color:var(--sage-deep); margin-bottom:1.3rem; }
 
 .gift{ text-align:center; }
 
@@ -280,14 +289,28 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
           <label><input type="radio" name="presence" value="non" /> Malheureusement non</label>
         </div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="r-guests">Nombre de personnes</label>
-          <input id="r-guests" name="guests" type="number" min="1" max="10" value="1" />
+      <input type="hidden" id="r-guests-count" name="guests" value="1" />
+      <div class="field">
+        <label for="r-diet">Régime particulier ?</label>
+        <input id="r-diet" name="diet" type="text" placeholder="Végétarien, allergies…" />
+      </div>
+      <div class="check-field">
+        <input type="checkbox" id="r-plus-one" name="plus_one" value="oui" />
+        <label for="r-plus-one">Je viens avec un·e invité·e (+1)</label>
+      </div>
+      <div id="extra-guests"></div>
+      <div class="field">
+        <label>Avez-vous une voiture ?</label>
+        <div class="choice">
+          <label><input type="radio" name="car" value="oui, peut prendre du monde" required /> Oui, et je peux prendre du monde si nécessaire</label>
+          <label><input type="radio" name="car" value="non" /> Non, pas de voiture</label>
         </div>
-        <div class="field">
-          <label for="r-diet">Régime particulier ?</label>
-          <input id="r-diet" name="diet" type="text" placeholder="Végétarien, allergies…" />
+      </div>
+      <div class="field">
+        <label>Je serai présent·e au brunch</label>
+        <div class="choice">
+          <label><input type="radio" name="brunch" value="oui" required /> Oui</label>
+          <label><input type="radio" name="brunch" value="non" /> Non</label>
         </div>
       </div>
       <div class="field">
@@ -335,6 +358,13 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
     <div class="footer-note">Fait avec amour · À très bientôt</div>
   </div>
 </footer>
+
+<div class="bff-popup" id="bff-popup">
+  <div class="bff-popup-card">
+    <span class="bff-text">GAY</span>
+    <button type="button" class="btn" id="bff-close">Fermer</button>
+  </div>
+</div>
 
 <script>
 /* ============================================================
@@ -441,6 +471,74 @@ let ticking = false;
 window.addEventListener('scroll', () => {
   if(!ticking){ requestAnimationFrame(() => { header.classList.toggle('scrolled', window.scrollY > 20); ticking = false; }); ticking = true; }
 }, { passive:true });
+
+/* RSVP — champs de l'invité +1 */
+const extraGuestsEl = $('#extra-guests');
+function renderPlusOne(hasPlusOne){
+  $('#r-guests-count').value = hasPlusOne ? '2' : '1';
+  const prev = extraGuestsEl.querySelector('.g-name')
+    ? { name: extraGuestsEl.querySelector('.g-name').value, diet: extraGuestsEl.querySelector('.g-diet').value }
+    : { name:'', diet:'' };
+  extraGuestsEl.innerHTML = '';
+  if(!hasPlusOne) return;
+
+  const row = document.createElement('div');
+  row.className = 'field-row extra-guest';
+  const nameField = document.createElement('div');
+  nameField.className = 'field';
+  const nameLabel = document.createElement('label');
+  nameLabel.htmlFor = 'r-name-2';
+  nameLabel.textContent = 'Nom et prénom (+1)';
+  const nameInput = document.createElement('input');
+  nameInput.id = 'r-name-2';
+  nameInput.name = 'guest_name_2';
+  nameInput.type = 'text';
+  nameInput.required = true;
+  nameInput.placeholder = "Nom de l'invité·e";
+  nameInput.className = 'g-name';
+  nameInput.value = prev.name;
+  nameField.append(nameLabel, nameInput);
+
+  const dietField = document.createElement('div');
+  dietField.className = 'field';
+  const dietLabel = document.createElement('label');
+  dietLabel.htmlFor = 'r-diet-2';
+  dietLabel.textContent = 'Régime particulier ?';
+  const dietInput = document.createElement('input');
+  dietInput.id = 'r-diet-2';
+  dietInput.name = 'guest_diet_2';
+  dietInput.type = 'text';
+  dietInput.placeholder = 'Végétarien, allergies…';
+  dietInput.className = 'g-diet';
+  dietInput.value = prev.diet;
+  dietField.append(dietLabel, dietInput);
+
+  row.append(nameField, dietField);
+  extraGuestsEl.appendChild(row);
+  watchNameForBFF(nameInput);
+}
+$('#r-plus-one').addEventListener('change', (e) => renderPlusOne(e.target.checked));
+
+/* Easter egg BFF */
+function showBFFPopup(){
+  $('#bff-popup').classList.add('show');
+}
+function hideBFFPopup(){
+  $('#bff-popup').classList.remove('show');
+}
+function watchNameForBFF(input){
+  let shown = false;
+  input.addEventListener('input', () => {
+    const v = input.value.toLowerCase();
+    const match = /\bandy\b/.test(v) || /\bjean-michel\b/.test(v);
+    if(match && !shown){ showBFFPopup(); shown = true; }
+    if(!match) shown = false;
+  });
+}
+watchNameForBFF($('#r-name'));
+$('#bff-close').addEventListener('click', hideBFFPopup);
+$('#bff-popup').addEventListener('click', (e) => { if(e.target.id === 'bff-popup') hideBFFPopup(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape') hideBFFPopup(); });
 
 /* RSVP */
 $('#rsvp-form').addEventListener('submit', async (ev) => {
