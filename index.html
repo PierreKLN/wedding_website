@@ -159,6 +159,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .bff-popup.show{ display:flex; }
 .bff-popup-card{ background:var(--paper); border-radius:8px; padding:clamp(2rem,6vw,3rem); text-align:center; box-shadow:0 30px 60px -20px rgba(0,0,0,.5); max-width:320px; }
 .bff-text{ display:block; font-family:var(--font-display); font-size:3rem; color:var(--sage-deep); margin-bottom:1.3rem; }
+.bff-gif{ width:100%; max-width:240px; border-radius:6px; margin:0 auto 1.5rem; }
 
 .gift{ text-align:center; }
 
@@ -362,6 +363,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 <div class="bff-popup" id="bff-popup">
   <div class="bff-popup-card">
     <span class="bff-text">GAY</span>
+    <img class="bff-gif" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzl5amdsNnhoejI0N2diNjd2dnUwMTlhMWF4bjd4ODlmODllNDhsdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/jPF1YcF6UJXXJT4so0/giphy.gif" alt="" loading="lazy" />
     <button type="button" class="btn" id="bff-close">Fermer</button>
   </div>
 </div>
@@ -398,14 +400,11 @@ const CONFIG = {
   info: [
     { title:"Hébergement", text:"Le domaine dispose de 70 couchages sur place. Les modalités de réservation vous seront communiquées prochainement." },
     { title:"Accès & parking", text:"À environ 1h de Paris, près de Chéroy (sortie A6). Parking gratuit sur place ; pensez au covoiturage." },
-    { title:"Sur place", text:"Piscine, grands espaces et cadre nature. Prévoyez une tenue confortable pour danser et profiter des extérieurs." }
+    { title:"Dress code", text:"À compléter" }
   ],
 
   faq: [
-    { q:"Peut-on dormir sur place ?", a:"Oui, le domaine propose des couchages. Nous vous préciserons comment réserver votre chambre." },
-    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." },
-    { q:"Les enfants sont-ils les bienvenus ?", a:"Bien sûr. Précisez-le dans votre réponse pour que nous prévoyions ce qu'il faut." },
-    { q:"Comment venir depuis Paris ?", a:"Comptez environ une heure de route. Le covoiturage est vivement encouragé ; un point de rendez-vous pourra être organisé." }
+    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." }
   ]
 };
 
