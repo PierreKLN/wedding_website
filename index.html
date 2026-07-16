@@ -141,7 +141,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .check-field input[type="checkbox"]{ width:18px; height:18px; accent-color:var(--sage-deep); cursor:pointer; flex:none; }
 .check-field label{ font-family:var(--font-body); font-size:.95rem; color:var(--ink); cursor:pointer; margin:0; text-transform:none; letter-spacing:normal; }
 .choice{ display:flex; gap:.8rem; }
-.choice label{ position:relative; flex:1; text-align:center; padding:.85rem; border:1px solid var(--line); border-radius:5px; cursor:pointer; text-transform:none; font-family:var(--font-body); font-size:.9rem; color:var(--ink); background:var(--paper-2); transition:.3s var(--ease); }
+.choice label{ position:relative; display:flex; align-items:center; justify-content:center; flex:1; text-align:center; padding:.85rem; border:1px solid var(--line); border-radius:5px; cursor:pointer; text-transform:none; font-family:var(--font-body); font-size:.9rem; color:var(--ink); background:var(--paper-2); transition:.3s var(--ease); }
 .choice input{ position:absolute; opacity:0; }
 .choice label:has(input:checked){ border-color:var(--sage-deep); background:var(--sage-mist); color:var(--sage-deep); }
 .btn{ display:inline-block; cursor:pointer; border:none; font-family:var(--font-accent); background:var(--sage-deep); color:#fff; letter-spacing:.08em; text-transform:uppercase; font-size:.8rem; padding:.95rem 2.2rem; border-radius:999px; transition:transform .3s var(--ease), filter .3s var(--ease); }
@@ -195,7 +195,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   .burger.active span:first-child{ transform:translateY(6.6px) rotate(45deg); }
   .burger.active span:last-child{ transform:translateY(-6.6px) rotate(-45deg); }
   .story-grid{ grid-template-columns:1fr; }
-  .story-photo{ order:-1; aspect-ratio:4/5; max-width:420px; margin-inline:auto; }
+  .story-photo{ order:-1; aspect-ratio:4/5; width:100%; max-width:420px; margin-inline:auto; }
   .info-grid{ grid-template-columns:1fr; }
   .field-row{ grid-template-columns:1fr; }
   .timeline::before{ left:85px; }
@@ -347,9 +347,9 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   <div class="wrap gift">
     <div class="section-head reveal">
       <span class="eyebrow">Votre présence avant tout</span>
-      <h2 class="section-title">Cadeaux</h2>
-      <p class="section-lead">Le plus beau des cadeaux, c'est vous à nos côtés. Pour celles et ceux qui souhaitent contribuer, une cagnotte est à votre disposition.</p>
-      <div class="reveal d1" style="margin-top:2rem"><a href="#" class="btn">Accéder à la cagnotte</a></div>
+      <h2 class="section-title">Liste de mariage</h2>
+      <p class="section-lead">Le plus beau des cadeaux, c'est vous à nos côtés. Pour celles et ceux qui souhaitent contribuer, une liste de mariage est à votre disposition.</p>
+      <div class="reveal d1" style="margin-top:2rem"><a href="#" class="btn">Accéder à la liste de mariage</a></div>
     </div>
   </div>
 </section>
@@ -440,7 +440,7 @@ $('[data-story-2]').textContent = CONFIG.story.p2;
 document.title = `${CONFIG.partner1} & ${CONFIG.partner2} — Notre mariage`;
 
 $('#timeline').innerHTML = CONFIG.schedule.map((s,i) => `
-  <div class="tl-item reveal d${(i%4)+1}">
+  <div class="tl-item reveal" style="transition-delay:${(Math.min(i,4)*0.08).toFixed(2)}s">
     <div class="tl-time">${s.time}</div>
     <div class="tl-body"><h4>${s.title}</h4></div>
   </div>`).join('');
