@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pierre-Alexandre & Agathe — Notre mariage</title>
+<meta name="description" content="Nous nous marions le 7 août 2027 au Domaine de Chenevière." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Arbutus+Slab&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FBFAF4; --paper-2:#F1F1E7; --sage-mist:#E7EDDD;
+  --sage:#AEBFA0; --sage-mid:#89A07C; --sage-deep:#5E7150;
+  --ink:#37432F; --ink-soft:#63705A; --line:#DED9CB;
+  --font-display:"Fraunces",Georgia,"Times New Roman",serif;
+  --font-accent:"Arbutus Slab",Georgia,serif;
+  --font-body:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --maxw:1180px; --header-h:68px;
+  --hero-img:url("images/vue-domaine.jpg");
+  --story-img:url("images/notre-histoire.jpg");
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:var(--header-h); }
+body{ font-family:var(--font-body); background:var(--paper); color:var(--ink); line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased; }
+img{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+::selection{ background:var(--sage); color:#fff; }
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:clamp(1.25rem,5vw,3rem); }
+
+.eyebrow{ font-family:var(--font-accent); font-size:.74rem; letter-spacing:.22em; text-transform:uppercase; color:var(--sage-deep); }
+h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:clamp(2.1rem,5.5vw,3.6rem); line-height:1.05; letter-spacing:-.01em; margin-top:.6rem; }
+.section-lead{ font-size:clamp(1rem,2.2vw,1.18rem); color:var(--ink-soft); max-width:46ch; margin-top:1.1rem; }
+
+.reveal{ opacity:0; transform:translateY(26px); filter:blur(5px); transition:opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
+.reveal.in-view{ opacity:1; transform:none; filter:none; }
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* ---------- HEADER ---------- */
+.header{
+  position:fixed; inset:0 0 auto 0; z-index:100; height:var(--header-h);
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding-inline:clamp(1.25rem,5vw,3rem);
+  background:color-mix(in srgb, var(--paper) 80%, transparent);
+  backdrop-filter:saturate(1.3) blur(12px); -webkit-backdrop-filter:saturate(1.3) blur(12px);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
+}
+.header.scrolled{ border-bottom-color:var(--line); box-shadow:0 6px 24px -18px rgba(55,67,47,.5); background:color-mix(in srgb, var(--paper) 92%, transparent); }
+.brand{ display:flex; align-items:center; gap:.7rem; min-width:0; }
+.brand-mono{
+  flex:0 0 auto; width:36px; height:36px; display:grid; place-items:center;
+  border:1px solid var(--sage-mid); border-radius:50%;
+  font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
+}
+.brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.nav-links{ display:flex; gap:1.8rem; align-items:center; flex:0 0 auto; }
+.nav-links a{ font-size:.82rem; letter-spacing:.04em; color:var(--ink-soft); white-space:nowrap; transition:color .3s var(--ease); }
+.nav-links a:hover{ color:var(--sage-deep); }
+.nav-cta{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:var(--sage-deep); color:#fff; border-radius:999px; padding:.55rem 1.15rem; transition:filter .3s var(--ease), transform .3s var(--ease); }
+.nav-cta:hover{ filter:brightness(1.08); transform:translateY(-1px); color:#fff; }
+.burger{ display:none; background:none; border:none; cursor:pointer; padding:.4rem; }
+.burger span{ display:block; width:24px; height:1.6px; background:var(--ink); margin:5px 0; }
+
+/* ---------- HERO : vue aérienne du domaine ---------- */
+.hero{
+  position:relative; min-height:100svh; overflow:hidden; color:#FBFAF4;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding-top:calc(var(--header-h) + 2rem);
+  padding-bottom:7rem;              /* réserve la place du "Découvrir" */
+  text-align:center;
+  background:
+    linear-gradient(180deg, rgba(30,40,26,.55) 0%, rgba(30,40,26,.30) 40%, rgba(30,40,26,.62) 100%),
+    var(--hero-img);
+  background-size:cover; background-position:center center;
+}
+.hero-inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); padding-inline:clamp(1.25rem,5vw,3rem); }
+.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.6); border-radius:50%; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
+.hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
+.hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
+.hero-names .amp{ font-style:italic; color:#CDD8C0; display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
+.hero-sub{ margin-top:1.4rem; font-family:var(--font-accent); font-size:clamp(.75rem,2vw,.95rem); letter-spacing:.12em; text-transform:uppercase; color:rgba(251,250,244,.92); }
+.hero-sub .dot{ color:var(--sage); margin-inline:.6rem; }
+.countdown{ margin-top:2.4rem; display:flex; gap:clamp(1.2rem,5vw,3rem); justify-content:center; }
+.cd-num{ font-family:var(--font-display); font-weight:400; font-size:clamp(1.7rem,4.6vw,2.7rem); line-height:1; color:#FBFAF4; }
+.cd-lab{ font-family:var(--font-accent); font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(251,250,244,.72); margin-top:.5rem; }
+.scroll-cue{ position:absolute; bottom:1.8rem; left:50%; transform:translateX(-50%); z-index:2; font-family:var(--font-accent); font-size:.6rem; letter-spacing:.22em; text-transform:uppercase; color:rgba(251,250,244,.8); display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+.scroll-cue .bar{ width:1px; height:30px; background:linear-gradient(#FBFAF4,transparent); animation:cue 2.4s var(--ease) infinite; }
+@keyframes cue{ 0%,100%{ transform:scaleY(.4); opacity:.3 } 50%{ transform:scaleY(1); opacity:1 } }
+@media (max-height:640px){ .scroll-cue{ display:none; } .hero{ padding-bottom:3rem; } }
+
+/* ---------- SECTIONS ---------- */
+.section{ padding-block:clamp(5rem,12vw,9rem); position:relative; }
+.section.alt{ background:var(--paper-2); }
+.section.sage{ background:linear-gradient(180deg, var(--sage-mist), #E1E9D5); }
+.section-head{ max-width:640px; }
+.section.center .section-head{ margin-inline:auto; text-align:center; }
+.section.center .section-lead{ margin-inline:auto; }
+.sprig{ width:42px; margin:0 auto 1.3rem; display:block; color:var(--sage-mid); }
+
+/* Histoire — photo du couple */
+.story-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(2rem,6vw,5rem); align-items:center; margin-top:3rem; }
+.story-copy p{ font-size:1.08rem; color:var(--ink-soft); margin-bottom:1.2rem; }
+.story-copy p.first::first-letter{ font-family:var(--font-display); font-size:3.4rem; float:left; line-height:.8; padding:.2rem .5rem 0 0; color:var(--sage-deep); }
+.story-photo{
+  aspect-ratio:4/5; border-radius:4px; overflow:hidden;
+  background:var(--story-img) center/cover no-repeat;
+  box-shadow:0 30px 60px -34px rgba(55,67,47,.5);
+}
+
+/* Timeline (planning unique, sans notes) */
+.timeline{ margin-top:3.4rem; position:relative; max-width:560px; margin-inline:auto; text-align:left; }
+.timeline::before{ content:""; position:absolute; left:96px; top:10px; bottom:10px; width:1px; background:var(--sage); }
+.tl-item{ display:grid; grid-template-columns:96px 1fr; gap:2rem; padding-block:1.15rem; }
+.tl-time{ font-family:var(--font-display); font-size:1.15rem; text-align:right; color:var(--sage-deep); }
+.tl-body{ position:relative; padding-left:2rem; }
+.tl-body::before{ content:""; position:absolute; left:-6px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
+.tl-body h4{ font-family:var(--font-display); font-weight:400; font-size:1.28rem; }
+
+/* Infos */
+.info-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(1rem,3vw,1.8rem); margin-top:3.4rem; }
+.info{ padding:1.8rem 0; border-top:1px solid var(--sage); }
+.info .num{ font-family:var(--font-accent); color:var(--sage-deep); font-size:.85rem; letter-spacing:.1em; }
+.info h4{ font-family:var(--font-display); font-weight:400; font-size:1.4rem; margin:.6rem 0 .7rem; }
+.info p{ color:var(--ink-soft); font-size:.95rem; }
+
+/* RSVP */
+.rsvp-card{ margin-top:3rem; max-width:640px; margin-inline:auto; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:clamp(1.8rem,5vw,3rem); box-shadow:0 30px 60px -40px rgba(55,67,47,.4); }
+.field{ margin-bottom:1.3rem; text-align:left; }
+.field label{ display:block; font-family:var(--font-accent); font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.55rem; color:var(--sage-deep); }
+.field input,.field textarea{ width:100%; background:var(--paper-2); border:1px solid var(--line); border-radius:5px; padding:.85rem 1rem; color:var(--ink); font-family:inherit; font-size:.98rem; transition:border-color .3s var(--ease), background .3s var(--ease); }
+.field input:focus,.field textarea:focus{ outline:none; border-color:var(--sage-mid); background:#fff; }
+.field textarea{ resize:vertical; min-height:90px; }
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+.choice{ display:flex; gap:.8rem; }
+.choice label{ flex:1; text-align:center; padding:.85rem; border:1px solid var(--line); border-radius:5px; cursor:pointer; text-transform:none; font-family:var(--font-body); font-size:.9rem; color:var(--ink); background:var(--paper-2); transition:.3s var(--ease); }
+.choice input{ position:absolute; opacity:0; }
+.choice label:has(input:checked){ border-color:var(--sage-deep); background:var(--sage-mist); color:var(--sage-deep); }
+.btn{ display:inline-block; cursor:pointer; border:none; font-family:var(--font-accent); background:var(--sage-deep); color:#fff; letter-spacing:.08em; text-transform:uppercase; font-size:.8rem; padding:.95rem 2.2rem; border-radius:999px; transition:transform .3s var(--ease), filter .3s var(--ease); }
+.btn:hover{ transform:translateY(-2px); filter:brightness(1.08); color:#fff; }
+.btn.full{ width:100%; }
+.rsvp-thanks{ display:none; text-align:center; padding:1rem; color:var(--ink-soft); }
+.rsvp-thanks.show{ display:block; }
+.rsvp-thanks .serif{ font-family:var(--font-display); font-size:1.9rem; display:block; margin-bottom:.5rem; color:var(--sage-deep); }
+
+.gift{ text-align:center; }
+
+/* FAQ */
+.faq{ max-width:760px; margin:3rem auto 0; }
+.q{ border-bottom:1px solid var(--line); }
+.q summary{ cursor:pointer; list-style:none; padding:1.4rem 0; display:flex; justify-content:space-between; align-items:center; gap:1rem; font-family:var(--font-display); font-size:1.2rem; text-align:left; }
+.q summary::-webkit-details-marker{ display:none; }
+.q summary .plus{ color:var(--sage-deep); font-size:1.4rem; transition:transform .4s var(--ease); flex:none; }
+.q[open] summary .plus{ transform:rotate(45deg); }
+.q p{ color:var(--ink-soft); padding:0 0 1.5rem; max-width:60ch; text-align:left; }
+
+/* Footer */
+.footer{ background:var(--sage-mist); text-align:center; padding-block:clamp(4rem,10vw,6rem); border-top:1px solid var(--line); }
+.footer .monogram{ margin:0 auto; width:70px; height:70px; display:grid; place-items:center; border:1px solid var(--sage-mid); border-radius:50%; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
+.footer-names{ font-family:var(--font-display); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:300; margin-top:.5rem; }
+.footer-date{ font-family:var(--font-accent); letter-spacing:.14em; text-transform:uppercase; font-size:.76rem; color:var(--ink-soft); margin-top:1rem; }
+.footer-note{ color:var(--sage-mid); font-family:var(--font-accent); font-size:.72rem; letter-spacing:.08em; margin-top:2.5rem; }
+
+@media (max-width:1000px){ .nav-links{ gap:1.2rem; } .nav-links a{ font-size:.78rem; } }
+@media (max-width:860px){
+  .nav-links{ display:none; } .burger{ display:block; }
+  .story-grid{ grid-template-columns:1fr; }
+  .story-photo{ order:-1; aspect-ratio:4/5; max-width:420px; margin-inline:auto; }
+  .info-grid{ grid-template-columns:1fr; }
+  .field-row{ grid-template-columns:1fr; }
+  .timeline::before{ left:70px; }
+  .tl-item{ grid-template-columns:70px 1fr; gap:1rem; }
+  .countdown{ gap:1rem; }
+}
+@media (prefers-reduced-motion:reduce){
+  *{ animation:none!important; transition-duration:.01ms!important; }
+  .reveal{ opacity:1; transform:none; filter:none; }
+  html{ scroll-behavior:auto; }
+}
+:focus-visible{ outline:2px solid var(--sage-deep); outline-offset:3px; border-radius:2px; }
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <a href="#top" class="brand">
+    <span class="brand-mono" data-monogram></span>
+    <span class="brand-name"><span data-p1></span> &amp; <span data-p2></span></span>
+  </a>
+  <nav class="nav-links">
+    <a href="#histoire">Notre histoire</a>
+    <a href="#jour">Le grand jour</a>
+    <a href="#infos">Infos pratiques</a>
+    <a href="#rsvp" class="nav-cta">Confirmer</a>
+  </nav>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+</header>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
+    <div class="monogram" data-monogram></div>
+    <div class="hero-eyebrow reveal">Nous nous marions</div>
+    <h1 class="hero-names reveal d1"><span data-p1></span><span class="amp">&amp;</span><span data-p2></span></h1>
+    <p class="hero-sub reveal d2"><span data-location></span><span class="dot">•</span><span data-date-display></span></p>
+    <div class="countdown reveal d3" aria-label="Compte à rebours">
+      <div><div class="cd-num" data-cd="days">–</div><div class="cd-lab">Jours</div></div>
+      <div><div class="cd-num" data-cd="hours">–</div><div class="cd-lab">Heures</div></div>
+      <div><div class="cd-num" data-cd="mins">–</div><div class="cd-lab">Minutes</div></div>
+      <div><div class="cd-num" data-cd="secs">–</div><div class="cd-lab">Secondes</div></div>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Découvrir</span><span class="bar"></span></div>
+</header>
+
+<section class="section" id="histoire">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Chapitre premier</span>
+      <h2 class="section-title">Notre histoire</h2>
+    </div>
+    <div class="story-grid">
+      <div class="story-copy reveal d1">
+        <p class="first" data-story-1></p>
+        <p data-story-2></p>
+      </div>
+      <div class="story-photo reveal d2" role="img" aria-label="Pierre-Alexandre et Agathe"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section sage center" id="jour">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <svg class="sprig" viewBox="0 0 44 60" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 60V4M22 20c-8-2-14-8-16-16M22 20c8-2 14-8 16-16M22 34c-7-1-12-6-14-13M22 34c7-1 12-6 14-13M22 48c-6-1-10-5-12-11M22 48c6-1 10-5 12-11"/></svg>
+      <span class="eyebrow">Samedi <span data-date-short></span></span>
+      <h2 class="section-title">Le grand jour</h2>
+      <p class="section-lead">De la cérémonie à la piste de danse, voici le déroulé de notre journée.</p>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</section>
+
+<section class="section" id="infos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Pour bien préparer</span>
+      <h2 class="section-title">Infos pratiques</h2>
+    </div>
+    <div class="info-grid" id="info-grid"></div>
+  </div>
+</section>
+
+<section class="section sage center" id="rsvp">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Réponse souhaitée avant le <span data-rsvp-deadline></span></span>
+      <h2 class="section-title">Confirmez votre présence</h2>
+      <p class="section-lead">Un petit mot pour nous dire si vous serez des nôtres.</p>
+    </div>
+    <form class="rsvp-card reveal d1" id="rsvp-form">
+      <div class="field">
+        <label for="r-name">Nom et prénom</label>
+        <input id="r-name" name="name" type="text" required placeholder="Votre nom" />
+      </div>
+      <div class="field">
+        <label>Serez-vous présent·e ?</label>
+        <div class="choice">
+          <label><input type="radio" name="presence" value="oui" required /> Avec joie</label>
+          <label><input type="radio" name="presence" value="non" /> Malheureusement non</label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="r-guests">Nombre de personnes</label>
+          <input id="r-guests" name="guests" type="number" min="1" max="10" value="1" />
+        </div>
+        <div class="field">
+          <label for="r-diet">Régime particulier ?</label>
+          <input id="r-diet" name="diet" type="text" placeholder="Végétarien, allergies…" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="r-msg">Un petit mot (facultatif)</label>
+        <textarea id="r-msg" name="message" placeholder="Laissez-nous un message…"></textarea>
+      </div>
+      <button type="submit" class="btn full">Envoyer ma réponse</button>
+      <div class="rsvp-thanks" id="rsvp-thanks">
+        <span class="serif">Merci&nbsp;!</span>
+        Votre réponse est bien notée. (Formulaire de démonstration — à connecter à un vrai envoi.)
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="section center" id="cadeaux">
+  <div class="wrap gift">
+    <div class="section-head reveal">
+      <span class="eyebrow">Votre présence avant tout</span>
+      <h2 class="section-title">Cadeaux</h2>
+      <p class="section-lead">Le plus beau des cadeaux, c'est vous à nos côtés. Pour celles et ceux qui souhaitent contribuer, une cagnotte est à votre disposition.</p>
+      <div class="reveal d1" style="margin-top:2rem"><a href="#" class="btn">Accéder à la cagnotte</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="faq">
+  <div class="wrap center">
+    <div class="section-head reveal">
+      <span class="eyebrow">Vous vous demandez…</span>
+      <h2 class="section-title">Questions fréquentes</h2>
+    </div>
+    <div class="faq reveal d1" id="faq-list"></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="monogram" data-monogram></div>
+    <div class="footer-names"><span data-p1></span> &amp; <span data-p2></span></div>
+    <div class="footer-date"><span data-location></span> — <span data-date-display></span></div>
+    <div class="footer-note">Fait avec amour · À très bientôt</div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ⚙️  CONFIGURATION — TOUT SE PERSONNALISE ICI
+   ============================================================ */
+const CONFIG = {
+  partner1: "Pierre-Alexandre",
+  partner2: "Agathe",
+  monogram: "P&A",
+  date: "2027-08-07T15:30:00",
+  dateDisplay: "7 août 2027",
+  dateShort: "7 août",
+  location: "Domaine de Chenevière",
+  rsvpDeadline: "1ᵉʳ juin 2027",
+
+  story: {
+    p1: "Ici viendra votre histoire : comment vous vous êtes rencontrés, ce moment qui a tout changé, ce détail que vous seuls connaissez. Quelques lignes suffisent pour donner le ton.",
+    p2: "Et la suite — la demande, l'envie de vous unir et de réunir celles et ceux qui comptent. Racontez-le avec vos mots ; on peaufinera ensemble."
+  },
+
+  /* Programme — un titre par horaire, sans note */
+  schedule: [
+    { time:"15h00",  title:"Accueil des invités" },
+    { time:"15h30",  title:"Cérémonie religieuse" },
+    { time:"17h00",  title:"Vin d'honneur" },
+    { time:"20h00",  title:"Dîner" },
+    { time:"Minuit", title:"Ouverture du bal" },
+    { time:"4h00",   title:"Fin de soirée" }
+  ],
+
+  info: [
+    { title:"Hébergement", text:"Le domaine dispose de 70 couchages sur place. Les modalités de réservation vous seront communiquées prochainement." },
+    { title:"Accès & parking", text:"À environ 1h de Paris, près de Chéroy (sortie A6). Parking gratuit sur place ; pensez au covoiturage." },
+    { title:"Sur place", text:"Piscine, grands espaces et cadre nature. Prévoyez une tenue confortable pour danser et profiter des extérieurs." }
+  ],
+
+  faq: [
+    { q:"Peut-on dormir sur place ?", a:"Oui, le domaine propose des couchages. Nous vous préciserons comment réserver votre chambre." },
+    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." },
+    { q:"Les enfants sont-ils les bienvenus ?", a:"Bien sûr. Précisez-le dans votre réponse pour que nous prévoyions ce qu'il faut." },
+    { q:"Comment venir depuis Paris ?", a:"Comptez environ une heure de route. Le covoiturage est vivement encouragé ; un point de rendez-vous pourra être organisé." }
+  ]
+};
+
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const set = (attr, val) => $$(`[${attr}]`).forEach(el => el.textContent = val);
+
+set('data-p1', CONFIG.partner1);
+set('data-p2', CONFIG.partner2);
+set('data-monogram', CONFIG.monogram);
+set('data-date-display', CONFIG.dateDisplay);
+set('data-date-short', CONFIG.dateShort);
+set('data-location', CONFIG.location);
+set('data-rsvp-deadline', CONFIG.rsvpDeadline);
+$('[data-story-1]').textContent = CONFIG.story.p1;
+$('[data-story-2]').textContent = CONFIG.story.p2;
+document.title = `${CONFIG.partner1} & ${CONFIG.partner2} — Notre mariage`;
+
+$('#timeline').innerHTML = CONFIG.schedule.map((s,i) => `
+  <div class="tl-item reveal d${(i%4)+1}">
+    <div class="tl-time">${s.time}</div>
+    <div class="tl-body"><h4>${s.title}</h4></div>
+  </div>`).join('');
+
+$('#info-grid').innerHTML = CONFIG.info.map((n,i) => `
+  <div class="info reveal d${i+1}">
+    <div class="num">0${i+1}</div>
+    <h4>${n.title}</h4>
+    <p>${n.text}</p>
+  </div>`).join('');
+
+$('#faq-list').innerHTML = CONFIG.faq.map(f => `
+  <details class="q">
+    <summary>${f.q}<span class="plus">+</span></summary>
+    <p>${f.a}</p>
+  </details>`).join('');
+
+/* Compte à rebours */
+const target = new Date(CONFIG.date).getTime();
+function tick(){
+  const diff = target - Date.now();
+  const d = Math.max(0, Math.floor(diff/86400000));
+  const h = Math.max(0, Math.floor(diff%86400000/3600000));
+  const m = Math.max(0, Math.floor(diff%3600000/60000));
+  const s = Math.max(0, Math.floor(diff%60000/1000));
+  const p = n => String(n).padStart(2,'0');
+  $('[data-cd="days"]').textContent  = d;
+  $('[data-cd="hours"]').textContent = p(h);
+  $('[data-cd="mins"]').textContent  = p(m);
+  $('[data-cd="secs"]').textContent  = p(s);
+}
+tick(); setInterval(tick, 1000);
+
+/* Révélations */
+const io = new IntersectionObserver((e2) => {
+  e2.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); } });
+}, { threshold:.12, rootMargin:'0px 0px -8% 0px' });
+$$('.reveal').forEach(el => io.observe(el));
+
+/* Header au scroll */
+const header = $('#header');
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if(!ticking){ requestAnimationFrame(() => { header.classList.toggle('scrolled', window.scrollY > 20); ticking = false; }); ticking = true; }
+}, { passive:true });
+
+/* RSVP (démo) */
+$('#rsvp-form').addEventListener('submit', (ev) => {
+  ev.preventDefault();
+  $$('#rsvp-form .field, #rsvp-form .btn').forEach(el => el.style.display='none');
+  $('#rsvp-thanks').classList.add('show');
+});
+$('#burger').addEventListener('click', () => { location.hash = '#rsvp'; });
+</script>
+</body>
+</html>
