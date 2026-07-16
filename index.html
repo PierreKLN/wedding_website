@@ -23,6 +23,7 @@
   --maxw:1180px; --header-h:68px;
   --hero-img:url("images/vue-domaine.jpg");
   --story-img:url("images/notre-histoire.jpg");
+}
 
 *{ box-sizing:border-box; margin:0; padding:0; }
 html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:var(--header-h); }
@@ -61,8 +62,8 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .nav-links{ display:flex; gap:1.8rem; align-items:center; flex:0 0 auto; }
 .nav-links a{ font-size:.82rem; letter-spacing:.04em; color:var(--ink-soft); white-space:nowrap; transition:color .3s var(--ease); }
 .nav-links a:hover{ color:var(--sage-deep); }
-.nav-cta{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:var(--sage-deep); color:#fff; border-radius:999px; padding:.55rem 1.15rem; transition:filter .3s var(--ease), transform .3s var(--ease); }
-.nav-cta:hover{ filter:brightness(1.08); transform:translateY(-1px); color:#fff; }
+.nav-links .nav-cta{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; background:var(--sage-deep); color:#fff; border-radius:999px; padding:.55rem 1.15rem; transition:filter .3s var(--ease), transform .3s var(--ease); }
+.nav-links .nav-cta:hover{ filter:brightness(1.08); transform:translateY(-1px); color:#fff; }
 .burger{ display:none; background:none; border:none; cursor:pointer; padding:.4rem; }
 .burger span{ display:block; width:24px; height:1.6px; background:var(--ink); margin:5px 0; }
 
@@ -114,11 +115,11 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 /* Timeline (planning unique, sans notes) */
 .timeline{ margin-top:3.4rem; position:relative; max-width:560px; margin-inline:auto; text-align:left; }
-.timeline::before{ content:""; position:absolute; left:96px; top:10px; bottom:10px; width:1px; background:var(--sage); }
+.timeline::before{ content:""; position:absolute; left:127px; top:10px; bottom:10px; width:1px; background:var(--sage); }
 .tl-item{ display:grid; grid-template-columns:96px 1fr; gap:2rem; padding-block:1.15rem; }
 .tl-time{ font-family:var(--font-display); font-size:1.15rem; text-align:right; color:var(--sage-deep); }
 .tl-body{ position:relative; padding-left:2rem; }
-.tl-body::before{ content:""; position:absolute; left:-6px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
+.tl-body::before{ content:""; position:absolute; left:-4px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
 .tl-body h4{ font-family:var(--font-display); font-weight:400; font-size:1.28rem; }
 
 /* Infos */
@@ -172,7 +173,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   .story-photo{ order:-1; aspect-ratio:4/5; max-width:420px; margin-inline:auto; }
   .info-grid{ grid-template-columns:1fr; }
   .field-row{ grid-template-columns:1fr; }
-  .timeline::before{ left:70px; }
+  .timeline::before{ left:85px; }
   .tl-item{ grid-template-columns:70px 1fr; gap:1rem; }
   .countdown{ gap:1rem; }
 }
@@ -347,10 +348,10 @@ const CONFIG = {
 
   /* Programme — un titre par horaire, sans note */
   schedule: [
-    { time:"15h00",  title:"Accueil des invités" },
     { time:"15h30",  title:"Cérémonie religieuse" },
-    { time:"17h00",  title:"Vin d'honneur" },
-    { time:"20h00",  title:"Dîner" },
+    { time:"17h30",  title:"Accueil des invités" },
+    { time:"18h00",  title:"Cocktail" },
+    { time:"20h30",  title:"Dîner" },
     { time:"Minuit", title:"Ouverture du bal" },
     { time:"4h00",   title:"Fin de soirée" }
   ],
