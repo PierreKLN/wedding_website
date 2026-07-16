@@ -119,7 +119,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .tl-item{ display:grid; grid-template-columns:96px 1fr; gap:2rem; padding-block:1.15rem; }
 .tl-time{ font-family:var(--font-display); font-size:1.15rem; text-align:right; color:var(--sage-deep); }
 .tl-body{ position:relative; padding-left:2rem; }
-.tl-body::before{ content:""; position:absolute; left:-4px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
+.tl-body::before{ content:""; position:absolute; left:-8px; top:.5rem; width:11px; height:11px; border-radius:50%; background:var(--sage-mist); border:2px solid var(--sage-deep); }
 .tl-body h4{ font-family:var(--font-display); font-weight:400; font-size:1.28rem; }
 
 /* Infos */
@@ -332,8 +332,8 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
    ⚙️  CONFIGURATION — TOUT SE PERSONNALISE ICI
    ============================================================ */
 const CONFIG = {
-  partner1: "Pierre-Alexandre",
-  partner2: "Agathe",
+  partner1: "Agathe",
+  partner2: "Pierre-Alexandre",
   monogram: "P&A",
   date: "2027-08-07T15:30:00",
   dateDisplay: "7 août 2027",
@@ -358,16 +358,12 @@ const CONFIG = {
 
   info: [
     { title:"Hébergement", text:"Le domaine dispose de 70 couchages sur place. Les modalités de réservation vous seront communiquées prochainement." },
-    { title:"Accès & parking", text:"À environ 1h de Paris, près de Chéroy (sortie A6). Parking gratuit sur place ; pensez au covoiturage." },
-    { title:"Sur place", text:"Piscine, grands espaces et cadre nature. Prévoyez une tenue confortable pour danser et profiter des extérieurs." }
+    { title:"Accès & parking", text:"À environ 1h de Paris, Domaine de Chenevière, près de Chéroy (sortie A6). Parking gratuit sur place ; pensez au covoiturage." },
+    { title:"Dress code", text:"." }
   ],
 
   faq: [
-    { q:"Peut-on dormir sur place ?", a:"Oui, le domaine propose des couchages. Nous vous préciserons comment réserver votre chambre." },
-    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." },
-    { q:"Les enfants sont-ils les bienvenus ?", a:"Bien sûr. Précisez-le dans votre réponse pour que nous prévoyions ce qu'il faut." },
-    { q:"Comment venir depuis Paris ?", a:"Comptez environ une heure de route. Le covoiturage est vivement encouragé ; un point de rendez-vous pourra être organisé." }
-  ]
+    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." },  ]
 };
 
 const $  = (s, r=document) => r.querySelector(s);
