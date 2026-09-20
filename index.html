@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pierre-Alexandre & Agathe — Notre mariage</title>
+<title>Agathe & Pierre-Alexandre — Notre mariage</title>
 <meta name="description" content="Nous nous marions le 7 août 2027 au Domaine de Chenevière." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,6 +24,7 @@
   --hero-img:url("images/vue-domaine.jpg");
   --story-img:url("images/notre-histoire.jpg");
   --monogram-img:url("images/3D4C7440-047B-4AE6-A876-D24A3DF98978.png");
+  --monogram-img-white:url("images/monograme-blanc.png");
 }
 
 *{ box-sizing:border-box; margin:0; padding:0; }
@@ -55,9 +56,9 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .header.scrolled{ border-bottom-color:var(--line); box-shadow:0 6px 24px -18px rgba(55,67,47,.5); background:color-mix(in srgb, var(--paper) 92%, transparent); }
 .brand{ display:flex; align-items:center; gap:.7rem; min-width:0; }
 .brand-mono{
-  flex:0 0 auto; width:36px; height:36px; display:grid; place-items:center; overflow:hidden;
+  flex:0 0 auto; width:48px; height:48px; display:grid; place-items:center; overflow:hidden;
   border:1px solid var(--sage-mid); border-radius:50%;
-  background:var(--monogram-img) center/cover no-repeat;
+  background:#fff var(--monogram-img) center/72% no-repeat;
   font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
 }
 .brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -82,7 +83,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   background-size:cover; background-position:center center;
 }
 .hero-inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); padding-inline:clamp(1.25rem,5vw,3rem); }
-.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:var(--monogram-img) center/cover no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
+.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/72% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
 .hero-names .amp{ font-style:italic; color:#CDD8C0; display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
@@ -176,7 +177,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 /* Footer */
 .footer{ background:var(--sage-mist); text-align:center; padding-block:clamp(4rem,10vw,6rem); border-top:1px solid var(--line); }
-.footer .monogram{ margin:0 auto; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:var(--monogram-img) center/cover no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
+.footer .monogram{ margin:0 auto; width:88px; height:88px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:#fff var(--monogram-img) center/72% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
 .footer-names{ font-family:var(--font-display); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:300; margin-top:.5rem; }
 .footer-date{ font-family:var(--font-accent); letter-spacing:.14em; text-transform:uppercase; font-size:.76rem; color:var(--ink-soft); margin-top:1rem; }
 .footer-note{ color:var(--sage-mid); font-family:var(--font-accent); font-size:.72rem; letter-spacing:.08em; margin-top:2.5rem; }
@@ -224,7 +225,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
     <a href="#jour">Le grand jour</a>
     <a href="#infos">Infos pratiques</a>
     <a href="#cadeaux">Liste de mariage</a>
-    <a href="#rsvp" class="nav-cta">Confirmer</a>
+    <a href="#rsvp" class="nav-cta">Confirmer ma venue</a>
   </nav>
   <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
 </header>
@@ -292,7 +293,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
     </div>
     <form class="rsvp-card reveal d1" id="rsvp-form">
       <input type="hidden" name="access_key" value="c69ad447-a89e-41f0-b913-77322713dfc0" />
-      <input type="hidden" name="subject" value="Nouvelle réponse RSVP — Pierre-Alexandre & Agathe" />
+      <input type="hidden" name="subject" value="Nouvelle réponse RSVP — Agathe & Pierre-Alexandre" />
       <input type="hidden" name="from_name" value="Site mariage — RSVP" />
       <div class="field">
         <label for="r-name">Nom et prénom</label>
@@ -305,16 +306,10 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
           <label><input type="radio" name="presence" value="non" /> Malheureusement non</label>
         </div>
       </div>
-      <input type="hidden" id="r-guests-count" name="guests" value="1" />
       <div class="field">
         <label for="r-diet">Régime particulier ?</label>
         <input id="r-diet" name="diet" type="text" placeholder="Végétarien, allergies…" />
       </div>
-      <div class="check-field">
-        <input type="checkbox" id="r-plus-one" name="plus_one" value="oui" />
-        <label for="r-plus-one">Je viens avec un·e invité·e (+1)</label>
-      </div>
-      <div id="extra-guests"></div>
       <div class="field">
         <label>Avez-vous une voiture ?</label>
         <div class="choice">
@@ -391,8 +386,8 @@ if(!location.hash) window.scrollTo(0, 0);
    ⚙️  CONFIGURATION — TOUT SE PERSONNALISE ICI
    ============================================================ */
 const CONFIG = {
-  partner1: "Pierre-Alexandre",
-  partner2: "Agathe",
+  partner1: "Agathe",
+  partner2: "Pierre-Alexandre",
   date: "2027-08-07T15:30:00",
   dateDisplay: "7 août 2027",
   dateShort: "7 août",
@@ -486,53 +481,6 @@ let ticking = false;
 window.addEventListener('scroll', () => {
   if(!ticking){ requestAnimationFrame(() => { header.classList.toggle('scrolled', window.scrollY > 20); ticking = false; }); ticking = true; }
 }, { passive:true });
-
-/* RSVP — champs de l'invité +1 */
-const extraGuestsEl = $('#extra-guests');
-function renderPlusOne(hasPlusOne){
-  $('#r-guests-count').value = hasPlusOne ? '2' : '1';
-  const prev = extraGuestsEl.querySelector('.g-name')
-    ? { name: extraGuestsEl.querySelector('.g-name').value, diet: extraGuestsEl.querySelector('.g-diet').value }
-    : { name:'', diet:'' };
-  extraGuestsEl.innerHTML = '';
-  if(!hasPlusOne) return;
-
-  const row = document.createElement('div');
-  row.className = 'field-row extra-guest';
-  const nameField = document.createElement('div');
-  nameField.className = 'field';
-  const nameLabel = document.createElement('label');
-  nameLabel.htmlFor = 'r-name-2';
-  nameLabel.textContent = 'Nom et prénom (+1)';
-  const nameInput = document.createElement('input');
-  nameInput.id = 'r-name-2';
-  nameInput.name = 'guest_name_2';
-  nameInput.type = 'text';
-  nameInput.required = true;
-  nameInput.placeholder = "Nom de l'invité·e";
-  nameInput.className = 'g-name';
-  nameInput.value = prev.name;
-  nameField.append(nameLabel, nameInput);
-
-  const dietField = document.createElement('div');
-  dietField.className = 'field';
-  const dietLabel = document.createElement('label');
-  dietLabel.htmlFor = 'r-diet-2';
-  dietLabel.textContent = 'Régime particulier ?';
-  const dietInput = document.createElement('input');
-  dietInput.id = 'r-diet-2';
-  dietInput.name = 'guest_diet_2';
-  dietInput.type = 'text';
-  dietInput.placeholder = 'Végétarien, allergies…';
-  dietInput.className = 'g-diet';
-  dietInput.value = prev.diet;
-  dietField.append(dietLabel, dietInput);
-
-  row.append(nameField, dietField);
-  extraGuestsEl.appendChild(row);
-  watchNameForBFF(nameInput);
-}
-$('#r-plus-one').addEventListener('change', (e) => renderPlusOne(e.target.checked));
 
 /* Easter egg BFF */
 function showBFFPopup(){
