@@ -58,7 +58,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .brand-mono{
   flex:0 0 auto; width:48px; height:48px; display:grid; place-items:center; overflow:hidden;
   border:1px solid var(--sage-mid); border-radius:50%;
-  background:#fff var(--monogram-img) center/72% no-repeat;
+  background:transparent var(--monogram-img) center/74% no-repeat;
   font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
 }
 .brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -83,7 +83,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   background-size:cover; background-position:center center;
 }
 .hero-inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); padding-inline:clamp(1.25rem,5vw,3rem); }
-.hero .monogram{ margin:0 auto 1.2rem; width:70px; height:70px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/72% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
+.hero .monogram{ margin:0 auto 1.2rem; width:56px; height:56px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/74% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
 .hero-names .amp{ font-style:italic; color:#CDD8C0; display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
@@ -177,7 +177,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 /* Footer */
 .footer{ background:var(--sage-mist); text-align:center; padding-block:clamp(4rem,10vw,6rem); border-top:1px solid var(--line); }
-.footer .monogram{ margin:0 auto; width:88px; height:88px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:#fff var(--monogram-img) center/72% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
+.footer .monogram{ margin:0 auto; width:88px; height:88px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:transparent var(--monogram-img) center/74% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:var(--sage-deep); }
 .footer-names{ font-family:var(--font-display); font-size:clamp(1.8rem,6vw,3.2rem); font-weight:300; margin-top:.5rem; }
 .footer-date{ font-family:var(--font-accent); letter-spacing:.14em; text-transform:uppercase; font-size:.76rem; color:var(--ink-soft); margin-top:1rem; }
 .footer-note{ color:var(--sage-mid); font-family:var(--font-accent); font-size:.72rem; letter-spacing:.08em; margin-top:2.5rem; }
@@ -300,6 +300,10 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
         <input id="r-name" name="name" type="text" required placeholder="Votre nom" />
       </div>
       <div class="field">
+        <label for="r-address">Adresse postale</label>
+        <input id="r-address" name="address" type="text" placeholder="Numéro, rue, code postal, ville" />
+      </div>
+      <div class="field">
         <label>Serez-vous présent·e ?</label>
         <div class="choice">
           <label><input type="radio" name="presence" value="oui" required /> Avec joie</label>
@@ -323,6 +327,10 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
           <label><input type="radio" name="brunch" value="oui" required /> Oui</label>
           <label><input type="radio" name="brunch" value="non" /> Non</label>
         </div>
+      </div>
+      <div class="field">
+        <label for="r-song">Quelle chanson vous fait danser jusqu'au bout de la nuit ?</label>
+        <input id="r-song" name="song" type="text" placeholder="Titre de la chanson, artiste…" />
       </div>
       <div class="field">
         <label for="r-msg">Un petit mot (facultatif)</label>
