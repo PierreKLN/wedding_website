@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="is-locked">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Agathe & Pierre-Alexandre — Notre mariage</title>
-<meta name="description" content="Nous nous marions le 7 août 2027 au Domaine de Chenevière." />
+<title>Accès invités — Mariage</title>
+<meta name="description" content="Merci d'entrer le mot de passe reçu dans votre invitation pour accéder au site." />
+<link rel="icon" type="image/png" href="images/3D4C7440-047B-4AE6-A876-D24A3DF98978.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -83,7 +84,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   background-size:cover; background-position:center center;
 }
 .hero-inner{ position:relative; z-index:2; width:100%; max-width:var(--maxw); padding-inline:clamp(1.25rem,5vw,3rem); }
-.hero .monogram{ margin:0 auto 1.2rem; width:56px; height:56px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/74% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
+.hero .monogram{ margin:0 auto 1.2rem; width:56px; height:56px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/92% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
 .hero-names .amp{ font-style:italic; color:#CDD8C0; display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
@@ -107,6 +108,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .sprig{ width:42px; margin:0 auto 1.3rem; display:block; color:var(--sage-mid); }
 
 /* Histoire — photo du couple */
+#histoire, #jour, #infos, #rsvp, #cadeaux, #faq{ padding-block:clamp(3.5rem,7vw,5.5rem); }
 .story-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(2rem,6vw,5rem); align-items:center; margin-top:3rem; }
 .story-copy p{ font-size:1.08rem; color:var(--ink-soft); margin-bottom:1.2rem; }
 .story-copy p.first::first-letter{ font-family:var(--font-display); font-size:3.4rem; float:left; line-height:.8; padding:.2rem .5rem 0 0; color:var(--sage-deep); }
@@ -166,6 +168,25 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 .gift{ text-align:center; }
 
+/* ---------- Écran de verrouillage ---------- */
+html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
+.lock-screen{
+  position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  background:
+    linear-gradient(180deg, rgba(30,40,26,.55) 0%, rgba(30,40,26,.30) 40%, rgba(30,40,26,.62) 100%),
+    var(--hero-img);
+  background-size:cover; background-position:center center;
+  transition:opacity .5s var(--ease), visibility .5s var(--ease);
+}
+.lock-screen.unlocked{ opacity:0; visibility:hidden; pointer-events:none; }
+.lock-card{ width:100%; max-width:380px; background:var(--paper); border-radius:8px; padding:clamp(2rem,6vw,2.8rem); text-align:center; box-shadow:0 30px 60px -20px rgba(0,0,0,.5); }
+.lock-mono{ margin:0 auto 1.2rem; width:64px; height:64px; display:grid; place-items:center; overflow:hidden; border:1px solid var(--sage-mid); border-radius:50%; background:transparent var(--monogram-img) center/74% no-repeat; }
+.lock-title{ font-family:var(--font-display); font-weight:300; font-size:1.7rem; color:var(--ink); }
+.lock-lead{ color:var(--ink-soft); font-size:.92rem; margin:.6rem 0 1.6rem; }
+.lock-card .field{ text-align:left; }
+.lock-error{ display:none; color:#B3453D; font-size:.85rem; margin-top:1rem; }
+.lock-error.show{ display:block; }
+
 /* FAQ */
 .faq{ max-width:760px; margin:3rem auto 0; }
 .q{ border-bottom:1px solid var(--line); }
@@ -215,6 +236,20 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 </head>
 <body>
 
+<div class="lock-screen" id="lock-screen" role="dialog" aria-modal="true" aria-label="Accès protégé">
+  <form class="lock-card" id="lock-form">
+    <div class="lock-mono" aria-hidden="true"></div>
+    <h1 class="lock-title">Accès invités</h1>
+    <p class="lock-lead">Merci d'entrer le mot de passe indiqué sur votre invitation.</p>
+    <div class="field">
+      <label for="lock-password">Mot de passe</label>
+      <input id="lock-password" type="password" required placeholder="Mot de passe" autocomplete="off" />
+    </div>
+    <button type="submit" class="btn full">Déverrouiller</button>
+    <div class="lock-error" id="lock-error">Mot de passe incorrect, réessayez.</div>
+  </form>
+</div>
+
 <header class="header" id="header">
   <a href="#top" class="brand">
     <span class="brand-mono" aria-label="P&amp;A"></span>
@@ -249,7 +284,6 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 <section class="section" id="histoire">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">Chapitre premier</span>
       <h2 class="section-title">Notre histoire</h2>
     </div>
     <div class="story-grid">
@@ -257,7 +291,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
         <p class="first" data-story-1></p>
         <p data-story-2></p>
       </div>
-      <div class="story-photo reveal d2" role="img" aria-label="Pierre-Alexandre et Agathe"></div>
+      <div class="story-photo reveal d2" role="img" aria-label="Photo du couple"></div>
     </div>
   </div>
 </section>
@@ -293,7 +327,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
     </div>
     <form class="rsvp-card reveal d1" id="rsvp-form">
       <input type="hidden" name="access_key" value="c69ad447-a89e-41f0-b913-77322713dfc0" />
-      <input type="hidden" name="subject" value="Nouvelle réponse RSVP — Agathe & Pierre-Alexandre" />
+      <input type="hidden" name="subject" id="rsvp-subject" value="Nouvelle réponse RSVP" />
       <input type="hidden" name="from_name" value="Site mariage — RSVP" />
       <div class="field">
         <label for="r-name">Nom et prénom</label>
@@ -301,7 +335,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
       </div>
       <div class="field">
         <label for="r-address">Adresse postale</label>
-        <input id="r-address" name="address" type="text" placeholder="Numéro, rue, code postal, ville" />
+        <input id="r-address" name="address" type="text" required placeholder="Numéro, rue, code postal, ville" />
       </div>
       <div class="field">
         <label>Serez-vous présent·e ?</label>
@@ -317,8 +351,8 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
       <div class="field">
         <label>Avez-vous une voiture ?</label>
         <div class="choice">
-          <label><input type="radio" name="car" value="oui, peut prendre du monde" required /> Oui, et je peux prendre du monde si nécessaire</label>
-          <label><input type="radio" name="car" value="non" /> Non, pas de voiture</label>
+          <label><input type="radio" name="car" value="oui" required /> Oui</label>
+          <label><input type="radio" name="car" value="non" /> Non</label>
         </div>
       </div>
       <div class="field">
@@ -329,7 +363,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
         </div>
       </div>
       <div class="field">
-        <label for="r-song">Quelle chanson vous fait danser jusqu'au bout de la nuit ?</label>
+        <label for="r-song">Quelle chanson te fait danser jusqu'au bout de la nuit ?</label>
         <input id="r-song" name="song" type="text" placeholder="Titre de la chanson, artiste…" />
       </div>
       <div class="field">
@@ -390,92 +424,145 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 if('scrollRestoration' in history) history.scrollRestoration = 'manual';
 if(!location.hash) window.scrollTo(0, 0);
 
-/* ============================================================
-   ⚙️  CONFIGURATION — TOUT SE PERSONNALISE ICI
-   ============================================================ */
-const CONFIG = {
-  partner1: "Agathe",
-  partner2: "Pierre-Alexandre",
-  date: "2027-08-07T15:30:00",
-  dateDisplay: "7 août 2027",
-  dateShort: "7 août",
-  location: "Domaine de Chenevière",
-  rsvpDeadline: "1ᵉʳ juin 2027",
-
-  story: {
-    p1: "Ici viendra votre histoire : comment vous vous êtes rencontrés, ce moment qui a tout changé, ce détail que vous seuls connaissez. Quelques lignes suffisent pour donner le ton.",
-    p2: "Et la suite — la demande, l'envie de vous unir et de réunir celles et ceux qui comptent. Racontez-le avec vos mots ; on peaufinera ensemble."
-  },
-
-  /* Programme — un titre par horaire, sans note */
-  schedule: [
-    { time:"15h30",  title:"Cérémonie religieuse" },
-    { time:"17h30",  title:"Accueil des invités" },
-    { time:"18h00",  title:"Cocktail" },
-    { time:"20h30",  title:"Dîner" },
-    { time:"Minuit", title:"Ouverture du bal" },
-    { time:"4h00",   title:"Fin de soirée" }
-  ],
-
-  info: [
-    { title:"Hébergement", text:"Le domaine dispose de 70 couchages sur place. Les modalités de réservation vous seront communiquées prochainement." },
-    { title:"Accès & parking", text:"À environ 1h de Paris, près de Chéroy (sortie A6). Parking gratuit sur place ; pensez au covoiturage." },
-    { title:"Dress code", text:"À compléter" }
-  ],
-
-  faq: [
-    { q:"À quelle heure faut-il arriver ?", a:"La cérémonie religieuse débute à 15h30 ; prévoyez d'être installés un peu avant." }
-  ]
-};
-
 const $  = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 const set = (attr, val) => $$(`[${attr}]`).forEach(el => el.textContent = val);
 
-set('data-p1', CONFIG.partner1);
-set('data-p2', CONFIG.partner2);
-set('data-date-display', CONFIG.dateDisplay);
-set('data-date-short', CONFIG.dateShort);
-set('data-location', CONFIG.location);
-set('data-rsvp-deadline', CONFIG.rsvpDeadline);
-$('[data-story-1]').textContent = CONFIG.story.p1;
-$('[data-story-2]').textContent = CONFIG.story.p2;
-document.title = `${CONFIG.partner1} & ${CONFIG.partner2} — Notre mariage`;
+/* ============================================================
+   🔒  ACCÈS PROTÉGÉ PAR MOT DE PASSE
+   Le contenu réel (prénoms, date, lieu, programme…) n'existe nulle
+   part en clair dans ce fichier : il est chiffré (AES-GCM, clé
+   dérivée du mot de passe via PBKDF2). Tant que le bon mot de passe
+   n'a pas été saisi, seul ce blob illisible est présent en mémoire —
+   rien à voir dans l'inspecteur ou le code source.
+   Ceci reste un verrou "raisonnable", pas une vraie sécurité : un
+   site 100% statique ne peut pas protéger un secret côté client
+   contre quelqu'un de suffisamment déterminé.
+   ============================================================ */
+const LOCK = {
+  saltB64: "QW+w/9oE1WIhvM3yuRMbcw==",
+  ivB64: "naUeMHdgN58jVRKa",
+  ciphertextB64: "8s6avm1bh1Qk+HVQIr37wHfVocuDy+ChawNGTc1ksZQ8OD5eJYKvs2GmxP6HtCJv3TFE74TMTf8aIZS4jReieHPN9SjdNb52+w/G2jNil5HFRB4Cx5Z0l0V3OYyv0eUcPjIjqts/Ou7KtrEAlbn1NAph/JpOLrq1++IjEUvmy8QjxSAEaQ+dQsgml/dfvdG7bZGZC4AWSjkDg13si4rGYdmy6JDXxboxL4CIFZvPH3/eV0575gPHp66+shwPNHuCV6raALuoynTRcun9CSIKf9QoPKcfSfzklbzd552E4S+2dpzSXxrp8sbYifLjquIK6IASq5Wu3aJ6ve7X6Iz3lnlP2MqB7QkgJ95GZNsh27gBtw6KBKsjDXX4fimufo51cqQtSsSBL2Cxi81FWqOTpkP0B+aR+/VIwCzOCyPTFCVcSFLX8rLgRcN/Zog0nO4k7ZoKMog9xgSJAGSA6YKu9iCQpnI4UQQo0B1x9APOKc8A79Rvfm4R7qyaDLH+zBjL4cpSou8R3lDeKjvYdS/6M2FbgSe10b7W3xRJ+vBxYzFYdrOoymmdeQkewTbnnggKYZ/sb5+g/RwwdK/qMNyzI+3vLYiyop+XLQC5qzXWECMgg1ZkR4E8IE68XxlXxm4eDfutoB1Ah3DmvGEup5xEKHpFxzyMWpoW7fdpeQjZB1NkBU3KrNmRBC9Vqnw5Llo2qgwjvo8fAZgLMcRiexF6nhHTF2tv/rLxEOQYu2w0P9tdoDwhMWy3+kFKycl5FZH0IUZ1nK4fxsBSyJ9RG58tepmy0/60xlgGTqxoJ4JLbqOcW4GoVLVXAMzSGSb43pGzTr3f1z+2wghwkDEhG9tFOGsIzw8kR9reg0Xy2/yKcfnZQI8p77NG0EnMXXZfGibIv7wOEZns1ikUYj4SarUOutfYtgyK860cEXHfV5nbiPHBLAdf4Yr+sf6ZNKmjouxbqyuIESL1dl3cJHA/mNEWX47MuYA/C7z5EcfqAc4Ved6uAEmnsgUE5urWezyMqZJIWytsv9WbUPHJ6q+2JXyh0zZAcuhYBeEMcOVmYTr/xsiQ/p3Ub4gLCfY+ZciyAykuFBSYgOLhH0aH5o3EGnPtwCseh5mh5ou4if7/MxCVt+MepjjFQ01ogd2kAr3f/76aOm6e7w7ud3qqrU0dG4CzVbYfGNhjufBItfCGyr35PUQkBE3zLbbghl0hPuOoOn9fFp4m3EDst5Gle12j+GEIAtO7sKtWAFJqwJr9t3Wa+69Sc3W5qfNSH5wADlmz7N+HNnOaksbeFjr2SAMUgqpCQ+nnaHlMqT7IHkgoMlUO/8TOQrFfV6DPo0yC5X1Tbrt8pyW37ltPsG8AtCAe4/TNhZ93pFFY7CKxGDngMe8Huf/UWGSmJ8biiHNNvsATL4m9ky/2Was8Lieb1OMwKHx2sGZioxd9OVRS/h3hYKze7T+4qM4c8eelobRjgIhXS4+UFhHu5soBqGLTEDVBYSUD8QriP19KutJ9sX+UqK1ojO+AFmBB1uiPIDA6C6CMeXie4nS555lz2CpbQnHf/L/tYrJR37846aGVzNnfMMET4Dn2mI5cZ2kAEMAKX3PcJoqX3ThPER8Cj5nqy5BYEhmCtyLgaOIb6ArOMxE23ogvMcacWKLF9/qhGejy9CAIeuIGCaTz6bgqybHgWMRlXSaqyNPPgbnZQIv/0L5UM2/p1q8o8RHbuM47aU1PQH0o+FRYnJyJdZZ9PAr0LqCPkb+VJRERwbxkfGdYKjCFN0/11UlQarjh4OSSW1Su1M9xLmFmVEBq5ZfCpeipVa76K7Buj6yRIzNx0GvC7T2JhcS0RKk0a5e92X/J8+jWzA==",
+  iterations: 150000,
+  storageKey: "wedding_lock_pwd"
+};
 
-$('#timeline').innerHTML = CONFIG.schedule.map((s,i) => `
-  <div class="tl-item reveal" style="transition-delay:${(Math.min(i,4)*0.08).toFixed(2)}s">
-    <div class="tl-time">${s.time}</div>
-    <div class="tl-body"><h4>${s.title}</h4></div>
-  </div>`).join('');
+function b64ToBytes(b64){ return Uint8Array.from(atob(b64), c => c.charCodeAt(0)); }
 
-$('#info-grid').innerHTML = CONFIG.info.map((n,i) => `
-  <div class="info reveal d${i+1}">
-    <div class="num">0${i+1}</div>
-    <h4>${n.title}</h4>
-    <p>${n.text}</p>
-  </div>`).join('');
-
-$('#faq-list').innerHTML = CONFIG.faq.map(f => `
-  <details class="q">
-    <summary>${f.q}<span class="plus">+</span></summary>
-    <p>${f.a}</p>
-  </details>`).join('');
-
-/* Compte à rebours */
-const target = new Date(CONFIG.date).getTime();
-function tick(){
-  const diff = target - Date.now();
-  const d = Math.max(0, Math.floor(diff/86400000));
-  const h = Math.max(0, Math.floor(diff%86400000/3600000));
-  const m = Math.max(0, Math.floor(diff%3600000/60000));
-  const s = Math.max(0, Math.floor(diff%60000/1000));
-  const p = n => String(n).padStart(2,'0');
-  $('[data-cd="days"]').textContent  = d;
-  $('[data-cd="hours"]').textContent = p(h);
-  $('[data-cd="mins"]').textContent  = p(m);
-  $('[data-cd="secs"]').textContent  = p(s);
+async function deriveLockKey(password, saltBytes){
+  const enc = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    { name:'PBKDF2', salt: saltBytes, iterations: LOCK.iterations, hash:'SHA-256' },
+    baseKey,
+    { name:'AES-GCM', length:256 },
+    false,
+    ['decrypt']
+  );
 }
-tick(); setInterval(tick, 1000);
+
+async function tryDecryptConfig(password){
+  try{
+    const salt = b64ToBytes(LOCK.saltB64);
+    const iv = b64ToBytes(LOCK.ivB64);
+    const ciphertext = b64ToBytes(LOCK.ciphertextB64);
+    const key = await deriveLockKey(password, salt);
+    const plainBuf = await crypto.subtle.decrypt({ name:'AES-GCM', iv }, key, ciphertext);
+    return JSON.parse(new TextDecoder().decode(plainBuf));
+  } catch(err){
+    return null;
+  }
+}
+
+/* Injecte le contenu réel une fois le mot de passe validé */
+function renderContent(CONFIG){
+  set('data-p1', CONFIG.partner1);
+  set('data-p2', CONFIG.partner2);
+  set('data-date-display', CONFIG.dateDisplay);
+  set('data-date-short', CONFIG.dateShort);
+  set('data-location', CONFIG.location);
+  set('data-rsvp-deadline', CONFIG.rsvpDeadline);
+  $('[data-story-1]').textContent = CONFIG.story.p1;
+  $('[data-story-2]').textContent = CONFIG.story.p2;
+  document.title = `${CONFIG.partner1} & ${CONFIG.partner2} — Notre mariage`;
+  $('#rsvp-subject').value = `Nouvelle réponse RSVP — ${CONFIG.partner1} & ${CONFIG.partner2}`;
+
+  $('#timeline').innerHTML = CONFIG.schedule.map((s,i) => `
+    <div class="tl-item reveal" style="transition-delay:${(Math.min(i,4)*0.08).toFixed(2)}s">
+      <div class="tl-time">${s.time}</div>
+      <div class="tl-body"><h4>${s.title}</h4></div>
+    </div>`).join('');
+
+  $('#info-grid').innerHTML = CONFIG.info.map((n,i) => `
+    <div class="info reveal d${i+1}">
+      <div class="num">0${i+1}</div>
+      <h4>${n.title}</h4>
+      <p>${n.text}</p>
+    </div>`).join('');
+
+  $('#faq-list').innerHTML = CONFIG.faq.map(f => `
+    <details class="q">
+      <summary>${f.q}<span class="plus">+</span></summary>
+      <p>${f.a}</p>
+    </details>`).join('');
+
+  /* Les nouveaux éléments ajoutés au DOM doivent aussi être observés pour l'animation de révélation */
+  $$('.reveal', $('#timeline')).forEach(el => io.observe(el));
+  $$('.reveal', $('#info-grid')).forEach(el => io.observe(el));
+
+  /* Compte à rebours */
+  const target = new Date(CONFIG.date).getTime();
+  function tick(){
+    const diff = target - Date.now();
+    const d = Math.max(0, Math.floor(diff/86400000));
+    const h = Math.max(0, Math.floor(diff%86400000/3600000));
+    const m = Math.max(0, Math.floor(diff%3600000/60000));
+    const s = Math.max(0, Math.floor(diff%60000/1000));
+    const p = n => String(n).padStart(2,'0');
+    $('[data-cd="days"]').textContent  = d;
+    $('[data-cd="hours"]').textContent = p(h);
+    $('[data-cd="mins"]').textContent  = p(m);
+    $('[data-cd="secs"]').textContent  = p(s);
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+async function unlockWithPassword(password, persist){
+  const config = await tryDecryptConfig(password);
+  if(!config) return false;
+  renderContent(config);
+  $('#lock-screen').classList.add('unlocked');
+  document.documentElement.classList.remove('is-locked');
+  if(persist){
+    try{ localStorage.setItem(LOCK.storageKey, password); }catch(err){}
+  }
+  return true;
+}
+
+$('#lock-form').addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  const input = $('#lock-password');
+  const btn = ev.target.querySelector('.btn');
+  btn.disabled = true;
+  $('#lock-error').classList.remove('show');
+  const ok = await unlockWithPassword(input.value, true);
+  btn.disabled = false;
+  if(!ok){
+    $('#lock-error').classList.add('show');
+    input.value = '';
+    input.focus();
+  }
+});
+
+/* Déverrouillage silencieux si ce navigateur a déjà entré le bon mot de passe */
+(async () => {
+  let stored = null;
+  try{ stored = localStorage.getItem(LOCK.storageKey); }catch(err){}
+  if(stored){
+    const ok = await unlockWithPassword(stored, false);
+    if(!ok){ try{ localStorage.removeItem(LOCK.storageKey); }catch(err){} }
+  }
+})();
 
 /* Révélations */
 const io = new IntersectionObserver((e2) => {
