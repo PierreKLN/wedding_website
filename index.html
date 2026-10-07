@@ -356,6 +356,13 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
         </div>
       </div>
       <div class="field">
+        <label>Souhaitez-vous dormir sur place ?</label>
+        <div class="choice">
+          <label><input type="radio" name="sleepover" value="oui" required /> Oui</label>
+          <label><input type="radio" name="sleepover" value="non" /> Non</label>
+        </div>
+      </div>
+      <div class="field">
         <label>Je serai présent·e au brunch</label>
         <div class="choice">
           <label><input type="radio" name="brunch" value="oui" required /> Oui</label>
@@ -599,6 +606,10 @@ $('#bff-popup').addEventListener('click', (e) => { if(e.target.id === 'bff-popup
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') hideBFFPopup(); });
 
 /* RSVP */
+/* URL du Web App Apps Script (voir google-apps-script/rsvp-to-sheet.gs) qui
+   recopie chaque réponse dans un Google Sheet. Laisser vide pour désactiver. */
+const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwMyTGvqgS2AzoU2Da0qwxUy_oOmRNMoFbuC5xGgxOFyeQrWyaocpEBUBTHCG06rtOfvg/exec';
+
 $('#rsvp-form').addEventListener('submit', async (ev) => {
   ev.preventDefault();
   const form = ev.target;
@@ -613,6 +624,11 @@ $('#rsvp-form').addEventListener('submit', async (ev) => {
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.message || 'Envoi échoué');
+
+    if (SHEET_WEBHOOK_URL) {
+      fetch(SHEET_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: new FormData(form) }).catch(() => {});
+    }
+
     $$('#rsvp-form .field, #rsvp-form .btn').forEach(el => el.style.display = 'none');
     $('#rsvp-thanks').classList.add('show');
   } catch (err) {
