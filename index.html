@@ -63,7 +63,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
 }
 .brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.brand-name .amp{ font-family:var(--font-display); font-size:1.15em; }
+.brand-name .amp{ font-family:var(--font-display); font-weight:300; font-size:1.15em; }
 .nav-links{ display:flex; gap:1.8rem; align-items:center; flex:0 0 auto; }
 .nav-links a{ font-size:.82rem; letter-spacing:.04em; color:var(--ink-soft); white-space:nowrap; transition:color .3s var(--ease); }
 .nav-links a:hover{ color:var(--sage-deep); }
@@ -88,7 +88,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .hero .monogram{ margin:0 auto 1.2rem; width:56px; height:56px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/92% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
-.hero-names .amp{ display:block; font-size:clamp(2.2rem,6vw,3.6rem); margin:.9rem 0; }
+.hero-names .amp{ display:block; font-size:clamp(2.2rem,6vw,3.6rem); margin:.9rem 0; transform:translateY(.15em); }
 .hero-sub{ margin-top:1.4rem; font-family:var(--font-accent); font-size:clamp(.75rem,2vw,.95rem); letter-spacing:.12em; text-transform:uppercase; color:rgba(251,250,244,.92); }
 .hero-sub .dot{ color:var(--sage); margin-inline:.6rem; }
 .countdown{ margin-top:2.4rem; display:flex; gap:clamp(1.2rem,5vw,3rem); justify-content:center; }
@@ -209,14 +209,16 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 /* Carte d'accès */
 .map-frame-wrap{ position:relative; width:100%; aspect-ratio:21/9; border-radius:6px; overflow:hidden; border:1px solid var(--line); background:var(--paper-2); }
 .map-frame{ position:absolute; inset:0; width:100%; height:100%; border:0; }
-.map-route-form{ display:flex; gap:.7rem; margin-top:1.1rem; flex-wrap:wrap; }
-.map-route-form input{ flex:1 1 220px; background:var(--paper-2); border:1px solid var(--line); border-radius:5px; padding:.8rem 1rem; font-family:inherit; font-size:.95rem; color:var(--ink); }
+.btn-ghost{ display:inline-block; cursor:pointer; background:transparent; border:1px solid var(--sage-mid); color:var(--sage-deep); font-family:var(--font-accent); letter-spacing:.08em; text-transform:uppercase; font-size:.74rem; padding:.8rem 1.4rem; border-radius:999px; margin-top:1.1rem; transition:background .3s var(--ease), color .3s var(--ease); }
+.btn-ghost:hover{ background:var(--sage-mist); }
+.map-route-form{ display:flex; flex-direction:column; gap:.8rem; margin-top:1.1rem; }
+.map-route-form input{ width:100%; background:var(--paper-2); border:1px solid var(--line); border-radius:5px; padding:.8rem 1rem; font-family:inherit; font-size:.95rem; color:var(--ink); }
 .map-route-form input:focus{ outline:none; border-color:var(--sage-mid); background:#fff; }
-.map-route-form .btn{ padding:.8rem 1.6rem; font-size:.74rem; }
+.map-dest-choice label{ padding:.65rem; font-size:.85rem; }
+.map-route-form .btn{ align-self:flex-start; padding:.8rem 1.6rem; font-size:.74rem; }
 @media (max-width:640px){ .map-frame-wrap{ aspect-ratio:4/3; } }
 @media (max-width:480px){
-  .map-route-form{ flex-direction:column; }
-  .map-route-form .btn{ width:100%; }
+  .map-route-form .btn{ width:100%; align-self:stretch; }
   .map-route-form input{ padding:.7rem .9rem; font-size:.9rem; }
 }
 
@@ -556,8 +558,13 @@ function renderContent(CONFIG){
     <div class="map-frame-wrap">
       <iframe id="map-frame" class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
+    <button type="button" class="btn-ghost" id="map-church-route">Itinéraire domaine ↔ église</button>
     <form class="map-route-form" id="map-route-form">
-      <input type="text" id="map-origin" placeholder="Votre adresse de départ" required />
+      <input type="text" id="map-origin" placeholder="Numéro, rue, ville, code postal" required />
+      <div class="choice map-dest-choice">
+        <label><input type="radio" name="map-dest" value="venue" checked /> Au domaine</label>
+        <label><input type="radio" name="map-dest" value="church" /> À l'église</label>
+      </div>
       <button type="submit" class="btn">Voir l'itinéraire</button>
     </form>`;
 
@@ -606,6 +613,7 @@ function renderContent(CONFIG){
 
   /* Carte d'accès : chargée uniquement à l'ouverture de la carte "Accès & parking", pour ne pas alourdir la page */
   const VENUE_QUERY = '5XM4+99 Jouy';
+  const CHURCH_QUERY = '6232+32 Chéroy';
   const accessDetails = $$('.info-acc', $('#info-grid')).find(el => el.querySelector('#map-frame'));
   if (accessDetails) {
     const mapFrame = $('#map-frame');
@@ -616,11 +624,18 @@ function renderContent(CONFIG){
         mapLoaded = true;
       }
     });
+    $('#map-church-route').addEventListener('click', () => {
+      mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${MAPS_API_KEY}&origin=${encodeURIComponent(VENUE_QUERY)}&destination=${encodeURIComponent(CHURCH_QUERY)}`;
+      mapLoaded = true;
+    });
     $('#map-route-form').addEventListener('submit', (ev) => {
       ev.preventDefault();
       const origin = $('#map-origin').value.trim();
       if (!origin) return;
-      mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${MAPS_API_KEY}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(VENUE_QUERY)}`;
+      const destChoice = $('input[name="map-dest"]:checked', $('#map-route-form')).value;
+      const destination = destChoice === 'church' ? CHURCH_QUERY : VENUE_QUERY;
+      mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${MAPS_API_KEY}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
+      mapLoaded = true;
     });
   }
 
