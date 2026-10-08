@@ -132,6 +132,13 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .info{ padding:1.8rem 0; border-top:1px solid var(--sage); }
 .info .num{ font-family:var(--font-accent); color:var(--sage-deep); font-size:.85rem; letter-spacing:.1em; }
 .info h4{ font-family:var(--font-display); font-weight:400; font-size:1.4rem; margin:.6rem 0 .7rem; }
+.lodging-table{ width:100%; max-width:620px; margin-top:1.3rem; border-collapse:collapse; font-size:.92rem; }
+.lodging-table th{ font-family:var(--font-accent); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; color:var(--sage-deep); text-align:left; padding:.6rem .9rem .6rem 0; border-bottom:1px solid var(--sage); }
+.lodging-table td{ padding:.65rem .9rem .65rem 0; border-bottom:1px solid var(--line); color:var(--ink-soft); }
+.lodging-table tr:last-child td{ border-bottom:none; }
+.lodging-table th:last-child, .lodging-table td:last-child{ padding-right:0; }
+.lodging-table td:nth-child(2), .lodging-table td:nth-child(3){ white-space:nowrap; }
+@media (max-width:480px){ .lodging-table{ display:block; overflow-x:auto; } }
 .info p{ color:var(--ink-soft); font-size:.95rem; max-width:46ch; }
 
 /* RSVP */
@@ -187,13 +194,16 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 .lock-error{ display:none; color:#B3453D; font-size:.85rem; margin-top:1rem; }
 .lock-error.show{ display:block; }
 
+/* Cartes dépliables (Hébergement / Accès & parking) */
+.info-acc summary{ cursor:pointer; list-style:none; display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.info-acc summary::-webkit-details-marker{ display:none; }
+.info-acc-label{ display:block; }
+.info-acc-label h4{ margin:.4rem 0 0; }
+.info-acc .chevron{ color:var(--sage-deep); flex:none; transition:transform .4s var(--ease); }
+.info-acc[open] .chevron{ transform:rotate(180deg); }
+.info-body{ padding-top:1rem; }
+
 /* Carte d'accès */
-.map-toggle{ width:100%; border:1px solid var(--line); border-radius:8px; padding:0 1.6rem; background:var(--paper); }
-.map-toggle summary{ cursor:pointer; list-style:none; padding:1.3rem 0; display:flex; justify-content:space-between; align-items:center; gap:1rem; font-family:var(--font-accent); font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--sage-deep); }
-.map-toggle summary::-webkit-details-marker{ display:none; }
-.map-toggle summary .plus{ color:var(--sage-deep); font-size:1.3rem; transition:transform .4s var(--ease); flex:none; }
-.map-toggle[open] summary .plus{ transform:rotate(45deg); }
-.map-panel{ padding-bottom:1.8rem; }
 .map-frame-wrap{ position:relative; width:100%; aspect-ratio:21/9; border-radius:6px; overflow:hidden; border:1px solid var(--line); background:var(--paper-2); }
 .map-frame{ position:absolute; inset:0; width:100%; height:100%; border:0; }
 .map-route-form{ display:flex; gap:.7rem; margin-top:1.1rem; flex-wrap:wrap; }
@@ -335,19 +345,6 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
       <h2 class="section-title">Infos pratiques</h2>
     </div>
     <div class="info-grid" id="info-grid"></div>
-
-    <details class="map-toggle reveal" id="map-details">
-      <summary>Voir le plan d'accès<span class="plus">+</span></summary>
-      <div class="map-panel">
-        <div class="map-frame-wrap">
-          <iframe id="map-frame" class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        <form class="map-route-form" id="map-route-form">
-          <input type="text" id="map-origin" placeholder="Votre adresse de départ" required />
-          <button type="submit" class="btn">Voir l'itinéraire</button>
-        </form>
-      </div>
-    </details>
   </div>
 </section>
 
@@ -433,7 +430,7 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
   </div>
 </section>
 
-<section class="section alt" id="faq">
+<section class="section sage" id="faq">
   <div class="wrap center">
     <div class="section-head reveal">
       <span class="eyebrow">Vous vous demandez…</span>
@@ -536,12 +533,57 @@ function renderContent(CONFIG){
       <div class="tl-body"><h4>${s.title}</h4></div>
     </div>`).join('');
 
-  $('#info-grid').innerHTML = CONFIG.info.map((n,i) => `
-    <div class="info reveal d${i+1}">
-      <div class="num">0${i+1}</div>
-      <h4>${n.title}</h4>
-      <p>${n.text}</p>
-    </div>`).join('');
+  /* Tableau des hébergements aux alentours, affiché dans la carte "Hébergement" dépliée */
+  const LODGING = [
+    ['Bergerie des Anges', '8 min', '7,0 km'],
+    ['Hôtel de Ville', '7 min', '4,6 km'],
+    ['La Grange des Blins', '3 min', '1,3 km'],
+    ['Villa Dikaria', '15 min', '10,8 km'],
+    ['Le Victor Noir', '8 min', '4,8 km'],
+    ["L'Atelier du Flot Mesnil", '6 min', '5,0 km']
+  ];
+  const LODGING_TABLE_HTML = `
+    <table class="lodging-table">
+      <thead><tr><th>Logement</th><th>Temps de trajet</th><th>Distance</th></tr></thead>
+      <tbody>${LODGING.map(([name, time, dist]) => `<tr><td>${name}</td><td>${time}</td><td>${dist}</td></tr>`).join('')}</tbody>
+    </table>`;
+
+  /* Carte Google Maps, affichée dans la carte "Accès & parking" dépliée */
+  const MAP_PANEL_HTML = `
+    <div class="map-frame-wrap">
+      <iframe id="map-frame" class="map-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <form class="map-route-form" id="map-route-form">
+      <input type="text" id="map-origin" placeholder="Votre adresse de départ" required />
+      <button type="submit" class="btn">Voir l'itinéraire</button>
+    </form>`;
+
+  const CHEVRON_SVG = `<svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+
+  $('#info-grid').innerHTML = CONFIG.info.map((n,i) => {
+    const isLodging = /hébergement/i.test(n.title);
+    const isAccess = /accès|parking/i.test(n.title);
+    if (isLodging || isAccess) {
+      return `
+        <details class="info info-acc reveal d${i+1}">
+          <summary>
+            <span class="info-acc-label"><span class="num">0${i+1}</span><h4>${n.title}</h4></span>
+            ${CHEVRON_SVG}
+          </summary>
+          <div class="info-body">
+            <p>${n.text}</p>
+            ${isLodging ? LODGING_TABLE_HTML : ''}
+            ${isAccess ? MAP_PANEL_HTML : ''}
+          </div>
+        </details>`;
+    }
+    return `
+      <div class="info reveal d${i+1}">
+        <div class="num">0${i+1}</div>
+        <h4>${n.title}</h4>
+        <p>${n.text}</p>
+      </div>`;
+  }).join('');
 
   $('#faq-list').innerHTML = CONFIG.faq.map(f => `
     <details class="q">
@@ -553,27 +595,25 @@ function renderContent(CONFIG){
   $$('.reveal', $('#timeline')).forEach(el => io.observe(el));
   $$('.reveal', $('#info-grid')).forEach(el => io.observe(el));
 
-  /* Carte d'accès : positionnée juste sous la 2e carte (Accès & parking) dans la pile */
-  const infoItems = $$('.info', $('#info-grid'));
-  const mapDetails = $('#map-details');
-  if (infoItems[1]) infoItems[1].after(mapDetails); else $('#info-grid').appendChild(mapDetails);
-
-  /* Carte d'accès : chargée uniquement à l'ouverture du menu, pour ne pas alourdir la page */
+  /* Carte d'accès : chargée uniquement à l'ouverture de la carte "Accès & parking", pour ne pas alourdir la page */
   const VENUE_QUERY = '5XM4+99 Jouy';
-  const mapFrame = $('#map-frame');
-  let mapLoaded = false;
-  mapDetails.addEventListener('toggle', () => {
-    if (mapDetails.open && !mapLoaded) {
-      mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${MAPS_API_KEY}&q=${encodeURIComponent(VENUE_QUERY)}`;
-      mapLoaded = true;
-    }
-  });
-  $('#map-route-form').addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const origin = $('#map-origin').value.trim();
-    if (!origin) return;
-    mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${MAPS_API_KEY}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(VENUE_QUERY)}`;
-  });
+  const accessDetails = $$('.info-acc', $('#info-grid')).find(el => el.querySelector('#map-frame'));
+  if (accessDetails) {
+    const mapFrame = $('#map-frame');
+    let mapLoaded = false;
+    accessDetails.addEventListener('toggle', () => {
+      if (accessDetails.open && !mapLoaded) {
+        mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${MAPS_API_KEY}&q=${encodeURIComponent(VENUE_QUERY)}`;
+        mapLoaded = true;
+      }
+    });
+    $('#map-route-form').addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const origin = $('#map-origin').value.trim();
+      if (!origin) return;
+      mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=${MAPS_API_KEY}&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(VENUE_QUERY)}`;
+    });
+  }
 
   /* Compte à rebours */
   const target = new Date(CONFIG.date).getTime();
