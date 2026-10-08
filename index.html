@@ -49,12 +49,12 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   position:fixed; inset:0 0 auto 0; z-index:100; height:var(--header-h);
   display:flex; align-items:center; justify-content:space-between; gap:1rem;
   padding-inline:clamp(1.25rem,5vw,3rem);
-  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  background:color-mix(in srgb, var(--paper) 95%, transparent);
   backdrop-filter:saturate(1.3) blur(12px); -webkit-backdrop-filter:saturate(1.3) blur(12px);
   border-bottom:1px solid transparent;
   transition:border-color .4s var(--ease), box-shadow .4s var(--ease), background .4s var(--ease);
 }
-.header.scrolled{ border-bottom-color:var(--line); box-shadow:0 6px 24px -18px rgba(55,67,47,.5); background:color-mix(in srgb, var(--paper) 96%, transparent); }
+.header.scrolled{ border-bottom-color:var(--line); box-shadow:0 6px 24px -18px rgba(55,67,47,.5); background:color-mix(in srgb, var(--paper) 99%, transparent); }
 .brand{ display:flex; align-items:center; gap:.7rem; min-width:0; }
 .brand-mono{
   flex:0 0 auto; width:48px; height:48px; display:grid; place-items:center; overflow:hidden;
@@ -63,6 +63,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
   font-family:var(--font-accent); font-size:.68rem; line-height:1; color:var(--sage-deep);
 }
 .brand-name{ font-family:var(--font-accent); font-size:.9rem; letter-spacing:.02em; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.brand-name .amp{ font-family:var(--font-display); font-size:1.15em; }
 .nav-links{ display:flex; gap:1.8rem; align-items:center; flex:0 0 auto; }
 .nav-links a{ font-size:.82rem; letter-spacing:.04em; color:var(--ink-soft); white-space:nowrap; transition:color .3s var(--ease); }
 .nav-links a:hover{ color:var(--sage-deep); }
@@ -87,7 +88,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .hero .monogram{ margin:0 auto 1.2rem; width:56px; height:56px; display:grid; place-items:center; overflow:hidden; border:1px solid rgba(255,255,255,.6); border-radius:50%; background:transparent var(--monogram-img-white) center/92% no-repeat; font-family:var(--font-accent); font-size:1.05rem; color:#fff; }
 .hero-eyebrow{ font-family:var(--font-accent); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:#DDE6D2; }
 .hero-names{ font-family:var(--font-display); font-weight:300; color:#FBFAF4; font-size:clamp(2.4rem,9vw,6rem); line-height:1; letter-spacing:-.02em; margin-top:.5rem; text-shadow:0 2px 30px rgba(20,28,18,.4); }
-.hero-names .amp{ display:block; font-size:clamp(1.6rem,4.5vw,2.6rem); margin:.25rem 0; }
+.hero-names .amp{ display:block; font-size:clamp(2.2rem,6vw,3.6rem); margin:.9rem 0; }
 .hero-sub{ margin-top:1.4rem; font-family:var(--font-accent); font-size:clamp(.75rem,2vw,.95rem); letter-spacing:.12em; text-transform:uppercase; color:rgba(251,250,244,.92); }
 .hero-sub .dot{ color:var(--sage); margin-inline:.6rem; }
 .countdown{ margin-top:2.4rem; display:flex; gap:clamp(1.2rem,5vw,3rem); justify-content:center; }
@@ -285,7 +286,7 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 <header class="header" id="header">
   <a href="#top" class="brand">
     <span class="brand-mono" aria-label="P&amp;A"></span>
-    <span class="brand-name"><span data-p1></span> &amp; <span data-p2></span></span>
+    <span class="brand-name"><span data-p1></span> <span class="amp">&amp;</span> <span data-p2></span></span>
   </a>
   <nav class="nav-links">
     <a href="#histoire">Notre histoire</a>
@@ -563,7 +564,7 @@ function renderContent(CONFIG){
   const CHEVRON_SVG = `<svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
 
   const ACC_TEASERS = {
-    lodging: 'Quelques adresses à proximité, au cas où le domaine serait complet.',
+    lodging: 'Quelques adresses à proximité, si besoin.',
     access: 'Itinéraire, distance et parking sur place.'
   };
 
