@@ -132,6 +132,14 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 .info{ padding:1.8rem 0; border-top:1px solid var(--sage); max-width:760px; }
 .info .num{ font-family:var(--font-accent); color:var(--sage-deep); font-size:.85rem; letter-spacing:.1em; }
 .info h4{ font-family:var(--font-display); font-weight:400; font-size:1.4rem; margin:.6rem 0 .7rem; }
+#infos{ position:relative; overflow:hidden; }
+.infos-monogram{
+  position:absolute; top:50%; right:clamp(1rem,6vw,5rem); transform:translateY(-50%);
+  width:clamp(200px,20vw,320px); height:clamp(200px,20vw,320px);
+  background:var(--monogram-img) center/contain no-repeat;
+  opacity:.07; pointer-events:none;
+}
+@media (max-width:1100px){ .infos-monogram{ display:none; } }
 .info p{ color:var(--ink-soft); font-size:.95rem; }
 
 /* RSVP */
@@ -324,6 +332,7 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 </section>
 
 <section class="section" id="infos">
+  <div class="infos-monogram" aria-hidden="true"></div>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Pour bien préparer</span>
