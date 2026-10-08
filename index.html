@@ -13,8 +13,8 @@
 
 <style>
 :root{
-  --paper:#FBFAF4; --paper-2:#F1F1E7; --sage-mist:#E7EDDD;
-  --sage:#AEBFA0; --sage-mid:#89A07C; --sage-deep:#5E7150;
+  --paper:#FBFAF4; --paper-2:#F1F1E7; --sage-mist:#E3F6F8;
+  --sage:#B3EBF2; --sage-mid:#6FC2D1; --sage-deep:#2C7A89;
   --ink:#37432F; --ink-soft:#63705A; --line:#DED9CB;
   --font-display:"Fraunces",Georgia,"Times New Roman",serif;
   --font-accent:"Arbutus Slab",Georgia,serif;
@@ -101,7 +101,7 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 /* ---------- SECTIONS ---------- */
 .section{ padding-block:clamp(5rem,12vw,9rem); position:relative; }
 .section.alt{ background:var(--paper-2); }
-.section.sage{ background:linear-gradient(180deg, var(--sage-mist), #E1E9D5); }
+.section.sage{ background:linear-gradient(180deg, var(--sage-mist), #D2F1F4); }
 .section-head{ max-width:640px; }
 .section.center .section-head{ margin-inline:auto; text-align:center; }
 .section.center .section-lead{ margin-inline:auto; }
@@ -129,18 +129,10 @@ h2.section-title{ font-family:var(--font-display); font-weight:300; font-size:cl
 
 /* Infos */
 .info-grid{ display:grid; grid-template-columns:1fr; gap:clamp(1rem,3vw,1.8rem); margin-top:3.4rem; }
-.info{ padding:1.8rem 0; border-top:1px solid var(--sage); max-width:760px; }
+.info{ padding:1.8rem 0; border-top:1px solid var(--sage); }
 .info .num{ font-family:var(--font-accent); color:var(--sage-deep); font-size:.85rem; letter-spacing:.1em; }
 .info h4{ font-family:var(--font-display); font-weight:400; font-size:1.4rem; margin:.6rem 0 .7rem; }
-#infos{ position:relative; overflow:hidden; }
-.infos-monogram{
-  position:absolute; top:50%; right:clamp(1rem,6vw,5rem); transform:translateY(-50%);
-  width:clamp(200px,20vw,320px); height:clamp(200px,20vw,320px);
-  background:var(--monogram-img) center/contain no-repeat;
-  opacity:.07; pointer-events:none;
-}
-@media (max-width:1100px){ .infos-monogram{ display:none; } }
-.info p{ color:var(--ink-soft); font-size:.95rem; }
+.info p{ color:var(--ink-soft); font-size:.95rem; max-width:46ch; }
 
 /* RSVP */
 .rsvp-card{ margin-top:3rem; max-width:640px; margin-inline:auto; background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:clamp(1.8rem,5vw,3rem); box-shadow:0 30px 60px -40px rgba(55,67,47,.4); }
@@ -208,7 +200,12 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 .map-route-form input{ flex:1 1 220px; background:var(--paper-2); border:1px solid var(--line); border-radius:5px; padding:.8rem 1rem; font-family:inherit; font-size:.95rem; color:var(--ink); }
 .map-route-form input:focus{ outline:none; border-color:var(--sage-mid); background:#fff; }
 .map-route-form .btn{ padding:.8rem 1.6rem; font-size:.74rem; }
-@media (max-width:480px){ .map-route-form{ flex-direction:column; } .map-route-form .btn{ width:100%; } }
+@media (max-width:640px){ .map-frame-wrap{ aspect-ratio:4/3; } }
+@media (max-width:480px){
+  .map-route-form{ flex-direction:column; }
+  .map-route-form .btn{ width:100%; }
+  .map-route-form input{ padding:.7rem .9rem; font-size:.9rem; }
+}
 
 /* FAQ */
 .faq{ max-width:760px; margin:3rem auto 0; }
@@ -332,7 +329,6 @@ html.is-locked, html.is-locked body{ overflow:hidden; height:100%; }
 </section>
 
 <section class="section" id="infos">
-  <div class="infos-monogram" aria-hidden="true"></div>
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Pour bien préparer</span>
